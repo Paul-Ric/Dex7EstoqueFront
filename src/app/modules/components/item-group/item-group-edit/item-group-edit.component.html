@@ -1,0 +1,32 @@
+<app-edit-view
+  [isCreatePage]="isCreatePage"
+  [saveEnabled]="hasChanges"
+  [discardEnabled]="hasChanges && !isCreatePage"
+  [title]="isCreatePage ? 'Criar Grupo de itens' : 'Editar Grupo de itens'"
+  (onSave)="onSave()"
+  (onDelete)="onDelete()"
+  >
+  <div id="container">
+    <form [formGroup]="resourceForm">
+      <div class="row">
+        <div class="col-12 col-sm-7 col-md-6 col-lg-6 col-xl-4">
+          <div class="form-group">
+            <label for="name">Nome do grupo:</label>
+            <input type="text" formControlName="name" maxlength="50" id="name" name="name" class="form-control" tabindex="1" />
+          </div>
+        </div>
+        <div class="col-12 col-sm-5 col-md-2 col-lg-auto col-xl-auto">
+
+        </div>
+        <div class="col col-12 col-sm-7 col-md-4 col-lg-4 col-xl-3">
+          <div class="form-group dense-3">
+            <div class="form-group">
+              <label for="name">Descrição:</label>
+              <input type="text" formControlName="description" maxlength="50" id="name" name="name" class="form-control" tabindex="1" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</app-edit-view>

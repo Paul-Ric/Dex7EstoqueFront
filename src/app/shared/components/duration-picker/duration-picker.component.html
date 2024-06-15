@@ -1,0 +1,45 @@
+<div id="container">
+  <div id="inputContainer">
+    <input
+      type="text"
+      maxlength="50"
+      [(ngModel)]="durationValue"
+      class="form-control"
+      [mask]="'00:00'"
+      (ngModelChange)="inputChange($event)"
+      (change)="emitDuration();handleChangeCompleted()"
+    />
+    <button class="btnIgnore" id="pickerButton" (click)="togglePicker()">
+      <i class="material-icons">access_time</i>
+    </button>
+  </div>
+
+  <div class="picker-menu" [ngClass]="{ open: isOpen }">
+    <div class="picker-column">
+      <div class="picker-header">Horas</div>
+      <div class="picker-items">
+        <div
+          *ngFor="let hour of hours"
+          class="picker-item"
+          [ngClass]="{ selected: selectedHour === padZeroTxt(hour) }"
+          (click)="selectHour(hour); handleChangeCompleted();"
+        >
+          {{ hour }}
+        </div>
+      </div>
+    </div>
+    <div class="picker-column">
+      <div class="picker-header">Minutos</div>
+      <div class="picker-items">
+        <div
+          *ngFor="let minute of minutes"
+          class="picker-item"
+          [ngClass]="{ selected: selectedMinute === padZeroTxt(minute) }"
+          (click)="selectMinute(minute); handleChangeCompleted();"
+        >
+          {{ minute }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

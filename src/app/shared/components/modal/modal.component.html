@@ -1,0 +1,23 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <h1>{{title}}</h1>
+    <i class="material-icons btnClose mat-icon-size" (click)="onClose()">close</i>
+  </div>
+  <div class="modal-body">
+    <p>{{message}}</p>
+    <div class="errors">
+      <ul>
+        <li class="errorItem" *ngFor="let err of errors; let i = index">
+          <i class="material-icons" [style.color]="errorIconColors.length > 0 ? errorIconColors[i] : ''">{{errorIcons.length > 0 ? errorIcons[i] : 'warning' }}</i>
+          <p>{{err}}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button *ngIf="showBtnCancel" (click)="onCancelClick()" class="btnRed">Cancelar</button>
+    <button *ngIf="showBtnNo" (click)="onNoClick()" class="btnRed">Não</button>
+    <button *ngIf="showBtnYes" (click)="onYesClick()" class="btnGreen">Sim</button>
+    <button *ngIf="showBtnOk" (click)="onOkClick()" class="btnGreen">Ok</button>
+  </div>
+</div>

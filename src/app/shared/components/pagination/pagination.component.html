@@ -1,0 +1,11 @@
+<div id="container">
+  <div id="buttons">
+    <div class="item arrow" [ngClass]="{disabled: currentPage == 1}" (click)="navigate(currentPage-1)" [tabindex]="currentPage == 1 ? -1 : 0"><i class="material-icons">chevron_left</i></div>
+    <div class="item number dock" *ngIf="currentPage >= 4 && maxPages > 5" (click)="navigate(1)" [tabindex]="currentPage == 1 ? -1 : 0">1</div>
+    <div class="item number" *ngFor="let page of visiblePages" [ngClass]="{active: page == currentPage}" (click)="navigate(page)" [tabindex]="maxPages == 1 ? -1 : 0">
+      {{ page }}
+    </div>
+    <div class="item number dock" *ngIf="currentPage <= maxPages - 3 && maxPages > 5" (click)="navigate(maxPages)" [tabindex]="currentPage == maxPages ? -1 : 0">{{ maxPages }}</div>
+    <div class="item arrow" [ngClass]="{disabled: currentPage == maxPages}" (click)="navigate(currentPage+1)" [tabindex]="currentPage == maxPages ? -1 : 0"><i class="material-icons">chevron_right</i></div>
+  </div>
+</div>

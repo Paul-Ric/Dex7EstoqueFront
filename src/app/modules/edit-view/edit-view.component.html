@@ -1,0 +1,67 @@
+<div id="container" class="fcol">
+  <div id="header" class="frow align_center just_between">
+    <h1>{{ title }}</h1>
+    <button id="btnOptions" class="btnIgnore" [matMenuTriggerFor]="menu" tabindex="1">
+      <i id="optionsIcon" class="material-icons">more_vert</i>
+    </button>
+    <mat-menu #menu="matMenu" class="optionsMenu">
+      <button (click)="onClearFieldsClick()" class="btnIgnore" mat-menu-item>
+        <i class="material-icons">clear_all</i>
+        <span>Limpar campos</span>
+      </button>
+      <button
+        (click)="onDiscardClick()"
+        class="btnIgnore"
+        [disabled]="!discardEnabled"
+        mat-menu-item
+      >
+        <i class="material-icons">clear</i>
+        <span>Descartar alterações</span>
+      </button>
+    </mat-menu>
+  </div>
+
+  <div id="content">
+    <ng-content></ng-content>
+    <div id="footer">
+      <div class="row justify-content-end h100">
+        <div class="col-2 col-sm-auto">
+          <button
+            [hidden]="isCreatePage"
+            (click)="onDeleteClick()"
+            id="btnDelete"
+            class="btnRed"
+            matTooltip="Excluir"
+            matTooltipShowDelay="600"
+          >
+            <i class="material-icons">delete_forever</i>
+          </button>
+        </div>
+        <div class="col-5 col-sm-4 col-md-3 col-lg-auto">
+          <button
+            class="btnGray"
+            [ngClass]="{
+              maxWidth: (layout.isLG$ | async) || (layout.isXL$ | async)
+            }"
+            (click)="onCancelClick()"
+          >
+            Cancelar
+          </button>
+        </div>
+        <div class="col-5 col-sm-4 col-md-3 col-lg-auto">
+          <button
+            class="btnGreen"
+            [ngClass]="{
+              disabled: !saveEnabled,
+              maxWidth: (layout.isLG$ | async) || (layout.isXL$ | async)
+            }"
+            (click)="onSaveClick()"
+            [disabled]="!saveEnabled"
+          >
+            {{ isCreatePage ? "Criar" : "Salvar" }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

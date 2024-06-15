@@ -1,0 +1,12 @@
+<app-list-view
+[title]="'Estoque'"
+ [btnAddText]="'Nova Marca'"
+ [columns]="facade.LIST_COLUMNS"
+ [data]="this.facade.listBrandValues"
+ [loadingContent]="facade.loading"
+ [pageSize]="facade.MAX_PAGE_ITEMS"
+ (addNewEvent)="onBtnAddClick()"
+ (editEvent)="onEditClick($event)"
+  >
+
+</app-list-view>

@@ -1,0 +1,63 @@
+@import '../../../../assets/scss/fuse.scss';
+
+::ng-deep .block-body color-editable-input{
+  display: none !important;
+}
+
+::ng-deep.mat-mdc-tab-header-pagination {
+  display: none !important;
+}
+
+::ng-deep .mat-mdc-tab {
+  font-size: min(max(2rem,11px), 16px);
+  background-color: $white;
+
+  &:first-of-type{
+    border-top-left-radius: 8px;
+  }
+  &:last-of-type{
+    border-top-right-radius: 8px;
+  }
+}
+
+::ng-deep .mat-mdc-tab-body-wrapper {
+  height: 100%;
+}
+::ng-deep .block-card {
+  height: 100%;
+  .block-head{
+    border-radius: 0 !important;
+  }
+  .block-body{
+    .swatch{
+      margin: 1.5px;
+    }
+  }
+}
+
+::ng-deep .chrome-picker{
+  width: 100% !important;
+  .color-saturation{
+    flex: 1;
+  }
+}
+
+
+#colorsContainer {
+  position: absolute;
+  z-index: 50;
+  top: 100%;
+  left: 0;
+  height: 300px;
+  width: min(max(25vw,250px), 320px);
+  border-radius: 8px;
+  background-color: $soft_gray;
+  @include PanelShadow();
+
+  #colorTabs{
+    height: 100%;
+    position: sticky;
+    bottom: 0;
+  }
+
+}

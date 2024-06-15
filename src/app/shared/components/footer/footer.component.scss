@@ -1,0 +1,10 @@
+@import '../../../../assets/scss/fuse.scss';
+
+footer{
+  z-index: 0;
+  height: min(max(3vh, 15px), 25px);
+  width: 100%;
+  background-color: $light_gray;
+  color: $plate_gray;
+  font-size: min(max(2rem, 10px), 13px);
+}

@@ -1,0 +1,15 @@
+<app-list-view
+[title]="'Ordem de Venda'"
+ [btnAddText]="'Nova Ordem de Venda'"
+ [columns]="facade.LIST_COLUMNS"
+ [data]="this.facade.listSalesValues"
+ [loadingContent]="facade.loading"
+ [pageSize]="facade.MAX_PAGE_ITEMS"
+ [registerCount]="facade.count"
+ [foundCount]="facade.count"
+ (addNewEvent)="onBtnAddClick()"
+ (viewEvent)="onViewDetailsClick($event)"
+
+  >
+
+</app-list-view>

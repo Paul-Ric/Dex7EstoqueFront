@@ -1,0 +1,160 @@
+@import "../node_modules/@syncfusion/ej2-material-theme/styles/material.css";
+@import "./assets/scss/fuse.scss";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+button:not(.btnIgnore):not(.mat-icon-button, .mat-focus-indicator) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  padding: 2px 10px !important;
+  border-radius: 6px;
+  border: none;
+  font-weight: bold;
+  font-size: min(max(2rem, 11px), 15px);
+
+  @include BtnHover(120%);
+
+  &:focus {
+    border-color: $plate_gray;
+    box-shadow: 0 0 3px $medium_gray;
+  }
+
+  &.btnGreen {
+    color: $soft_gray;
+    background-color: $soft_wintergreen;
+  }
+  &.btnRed {
+    color: $soft_gray;
+    background-color: $dark_red;
+  }
+  &.btnBlue {
+    color: $soft_gray;
+    background-color: $sky_blue;
+  }
+  &.btnGray {
+    color: $soft_gray;
+    background-color: $medium_gray;
+  }
+
+  &.disabled,&:disabled {
+    background-color: $light_gray;
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+input:not(.inputIgnore):not(.mat-input-element),
+textarea:not(.inputIgnore) {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 40px;
+  padding: 8px 8px 8px 10px;
+  border: 1px solid $light_gray;
+  border-radius: 6px;
+  font-size: max(1.5rem, 12px);
+  resize: none;
+
+  &.ng-invalid.ng-touched {
+    box-shadow: 0 0 3px $dark_red;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $soft_wintergreen;
+    box-shadow: 0 0 3px $light_wintergreen;
+  }
+
+  &:disabled {
+    border-color: transparentize($light_gray, 0.5);
+    background-color: transparentize($soft_gray, 0.7) !important;
+  }
+
+  &::-ms-reveal,
+  ::-ms-clear {
+    display: none;
+  }
+}
+
+.errorsContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0 0 8px !important;
+
+  span {
+    font-size: 11px;
+    color: $dark_red;
+  }
+}
+
+.passwordEye {
+  color: $medium_gray;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+
+  transition: color 0.1s ease-in-out;
+  &:hover{
+    color: $cool_gray;
+  }
+}
+
+mat-form-field .mdc-notched-outline__trailing,
+.mdc-notched-outline__leading {
+  border-color: $light_gray !important;
+}
+
+.mat-mdc-text-field-wrapper {
+  height: 40px !important;
+}
+.mat-mdc-form-field-flex {
+  align-self: center !important;
+}
+.mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+.e-schedule .e-timeline-view .e-date-header-wrap table col,
+.e-schedule .e-timeline-view .e-content-wrap table col {
+  width: 20px !important;
+}
+
+.mat-calendar-table {
+  font-size: max(1.5rem, 12px);
+}
+
+.h100 {
+  height: 100%;
+}
+.w100 {
+  width: 100%;
+}
+
+.mr20 {
+  margin-right: 20px !important;
+}
+
+//debug
+.bred {
+  border: 1px solid red;
+}
+.bgreen {
+  border: 1px solid green;
+}
+.bblue {
+  border: 1px solid blue;
+}
+.borange {
+  border: 1px solid orange;
+}
+.byellow {
+  border: 1px solid yellow;
+}

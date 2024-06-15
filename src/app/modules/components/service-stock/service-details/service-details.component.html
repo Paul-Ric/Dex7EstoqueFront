@@ -1,0 +1,27 @@
+<app-view-details-modal
+  [title]="'Detalhes do Produto'"
+  [id]="data.id"
+  (editClickEvent)="onEditClick($event)"
+>
+<div id="container" [ngClass]="{ xSmall: facade.layout.isXS$ | async }">
+  <div class="row">
+    <div class="item col-auto">
+      <p class="label">Nome:</p>
+      <p class="value">{{ data.name }}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="item col-auto col-sm-8">
+      <p class="label">Codigo Interno:</p>
+      <p class="value">{{ data.costValue}}</p>
+    </div>
+    <div class="row">
+      <div class="item col-auto col-sm-8">
+        <p class="label">Valor:</p>
+        <p class="value">{{ data.innercode}}</p>
+      </div>
+      </div>
+  </div>
+
+</div>
+</app-view-details-modal>

@@ -1,0 +1,77 @@
+@import "../../../../../assets/scss/fuse.scss";
+
+:host {
+  @include AllDivSpace();
+}
+
+#container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: flex-start;
+  text-align: left;
+
+  .row {
+    width: 100%;
+
+    .item {
+      margin: 2rem 0;
+      padding-right: 25px;
+
+      .label {
+        font-size: min(max(2.3rem, 12px), 17px);
+        color: $medium_gray;
+      }
+
+      .value {
+        font-size: min(max(3.5rem, 15px), 18px);
+        color: $black;
+        word-break: break-all;
+      }
+    }
+
+    mat-expansion-panel {
+      margin-top: 10px;
+      .accordionContent {
+        .row {
+          .col {
+            margin-top: 10px;
+            padding-right: 20px;
+
+            label {
+              font-size: min(max(2.2rem, 10px), 14px);
+              color: $medium_gray;
+            }
+            p {
+              font-size: min(max(3.3rem, 13px), 16px);
+              color: $black;
+            }
+            i {
+              font-size: min(max(4rem, 18px), 25px);
+              margin-right: 5px;
+              &.true {
+                color: $sky_blue;
+              }
+              &.false {
+                color: $medium_gray;
+              }
+            }
+          }
+          &:first-of-type {
+            .col {
+              margin-top: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &.xSmall {
+    .item {
+      border-left: none !important;
+      padding-left: 0 !important;
+    }
+  }
+}

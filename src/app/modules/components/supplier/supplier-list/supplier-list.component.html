@@ -1,0 +1,14 @@
+<app-list-view
+[title]="'Estoque'"
+ [btnAddText]="'Novo Fornecedor'"
+ [columns]="facade.LIST_COLUMNS"
+ [data]="this.facade.listSupplierValues"
+ [loadingContent]="facade.loading"
+ [pageSize]="facade.MAX_PAGE_ITEMS"
+
+ (addNewEvent)="onBtnAddClick()"
+ (viewEvent)="onViewDetailsClick($event)"
+ (editEvent)="onEditClick($event)"
+  >
+
+</app-list-view>

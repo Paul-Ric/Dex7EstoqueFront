@@ -1,0 +1,52 @@
+.fcol{
+    display: flex;
+    flex-direction: column;
+}
+
+.frow{
+    display: flex;
+    flex-direction: row;
+}
+
+.just_center{
+    display: flex;
+    justify-content: center;
+}
+
+.just_around{
+    display: flex;
+    justify-content: space-around;
+}
+
+.just_evenly{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.just_between{
+    display: flex;
+    justify-content: space-between;
+}
+
+.just_end{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.align_center{
+    display: flex;
+    align-items: center;
+}
+
+.align_end{
+    display: flex;
+    align-items: flex-end;
+}
+
+.pos_rel{
+  position: relative;
+}
+
+.pos_abs{
+  position: absolute;
+}

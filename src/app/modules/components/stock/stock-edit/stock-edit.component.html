@@ -1,0 +1,267 @@
+<app-edit-view
+ [isCreatePage]="isCreatePage"
+ [saveEnabled]="hasChanges"
+ [discardEnabled]="hasChanges && !isCreatePage"
+ [title]="isCreatePage ? 'Criar Produto' : 'Editar Produto'"
+ (onSave)="onSave()"
+ (onDelete)="onDelete()"
+ >
+  <div class="container">
+    <form [formGroup]="resourceForm">
+      <div class="row ">
+        <div class="col-12 ms-4 col-sm-auto align_center just_center imgCol">
+          <div id="imageContainer" [ngClass]="{ mobile: facade.layout.isXS$ | async }">
+            <div id="imageActions">
+              <button id="btnDeleteImage" *ngIf="profilePictureUrl && profilePictureUrl.length > 0" class="btnIgnore"
+                (click)="promptDeleteImage()">
+                <i class="material-icons">delete</i> Remover
+              </button>
+              <button class="btnIgnore" (click)="file.click()">
+                <i class="material-icons">edit</i> Editar
+              </button>
+              <input type="file" hidden accept=".png, .jpg, .jpeg" #file type="file" (change)="onFileChange($event)" />
+            </div>
+            <img *ngIf="profilePictureUrl" [src]="profilePictureUrl" alt="Foto de perfil." />
+            <div *ngIf="!profilePictureUrl" id="defaultImg">
+              <i class="material-icons">add_to_photos</i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-2  ">
+          <mat-card class="example-small-box mat-elevation-z4">
+            <mat-card-header>
+              <mat-card-subtitle>Valor Custo</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <input type="text" formControlName="costValue" currencyMask [options]="{
+          prefix: 'R$ ',
+          thousands: '.',
+          decimal: ',',
+          allowNegative: false,
+        }" id="salary" name="salary">
+              <mat-divider></mat-divider>
+            </mat-card-content>
+
+
+          </mat-card>
+        </div>
+        <div class="col-lg-2 ms-4 ">
+          <mat-card class="example-small-box mat-elevation-z4">
+            <mat-card-header>
+              <mat-card-subtitle>Valor á Vista</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <input type="text" formControlName="cashValue" currencyMask [options]="{
+          prefix: 'R$ ',
+          thousands: '.',
+          decimal: ',',
+          allowNegative: false,
+        }" id="salary" name="salary">
+              <mat-divider></mat-divider>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-lg-2 ms-4 ">
+          <mat-card class="example-small-box mat-elevation-z5">
+            <mat-card-header>
+              <mat-card-subtitle>Valor a Prazo</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <input type="text" formControlName="termValue" currencyMask [options]="{
+          prefix: 'R$ ',
+          thousands: '.',
+          decimal: ',',
+          allowNegative: false,
+        }" id="salary" name="salary">
+              <mat-divider></mat-divider>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-lg-2 ms-4 ">
+          <mat-card class="example-small-box mat-elevation-z4">
+            <mat-card-header>
+              <mat-card-subtitle>Valor atacado</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <input type="text" formControlName="wholesaleValue" currencyMask [options]="{
+          prefix: 'R$ ',
+          thousands: '.',
+          decimal: ',',
+          allowNegative: false,
+        }" id="salary" name="salary">
+              <mat-divider></mat-divider>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <mat-tab-group animationDuration="2000ms">
+          <mat-tab label="Informações gerais">
+            <div class="container">
+              <div class="form-group">
+                <label for="wife">Código</label>
+                <input type="number" formControlName="code" maxlength="50" id="wife" name="wife" class="form-control"
+                  formControlName="code" />
+                <span class="txtRemaining">{{resourceForm.get('code')?.value?.length}}/50</span>
+              </div>
+              <div class="form-group">
+                <label for="wife">Código de barras:</label>
+                <input type="number" formControlName="barcode" maxlength="50" id="wife" name="wife" class="form-control"
+                  />
+                <span class="txtRemaining">{{resourceForm.get('barcode')?.value?.length}}/50</span>
+              </div>
+              <div class="form-group">
+                <label for="wife">NCM:</label>
+                <input type="number" formControlName="ncm" maxlength="50" id="wife" name="wife" class="form-control"
+                   />
+                <span class="txtRemaining">{{resourceForm.get('ncm')?.value?.length}}/50</span>
+              </div>
+            </div>
+            <div class="container">
+              <div class="form-group">
+                <label for="wife">Descrição do Produto</label>
+                <input type="text" formControlName="name" maxlength="50" id="wife" name="wife" class="form-control"
+                   />
+                <span class="txtRemaining">{{resourceForm.get('name')?.value?.length}}/50</span>
+              </div>
+            </div>
+            <div class="container">
+              <div class="form-group">
+                <label for="wife">Referencia do Produto(SKU)</label>
+                <input formControlName="sku" type="text" maxlength="50" id="wife" name="wife" class="form-control"
+                  />
+                <span class="txtRemaining">{{resourceForm.get('sku')?.value?.length}}/50</span>
+              </div>
+              <div class="form-group">
+                <label for="wife">Localização Fisica do Produto:</label>
+                <input formControlName="productPhysicalLocation" type="text" maxlength="50" id="wife" name="wife"
+                  class="form-control"  />
+                <span class="txtRemaining">{{resourceForm.get('productPhysicalLocation')?.value?.length}}/50</span>
+              </div>
+
+            </div>
+
+          </mat-tab>
+          <mat-tab label="Estoque">
+            <div class="container">
+              <div class="form-group">
+                <label for="wife">Estoque Mínimo:</label>
+                <input type="number" formControlName="minimumStock" maxlength="50" id="wife" name="wife"
+                  class="form-control" formControlName="minimumStock" />
+              </div>
+              <div class="form-group">
+                <label for="wife">Estoque Total:</label>
+                <input type="number" formControlName="maximumStock" maxlength="50" id="wife" name="wife"
+                  class="form-control"  />
+              </div>
+              <div class="form-group">
+                <label for="wife">Quantidade atual:</label>
+                <input type="number" maxlength="50" id="wife" name="wife" class="form-control"
+                  formControlName="currentQuantity" />
+              </div>
+            </div>
+            <div class="container">
+              <div class="form-group dense-3">
+                <label for="userType">Grupo de Itens:</label>
+                <mat-form-field appearance="outline">
+                  <input type="text" placeholder="Selecione" aria-label="Colaborador" matInput
+                    formControlName="groupCategoryId" [matAutocomplete]="autoItem" class="inputIgnore" />
+                  <mat-autocomplete  #autoItem="matAutocomplete"
+                    [displayWith]="displayItemGroup" (optionSelected)="onItemSelection($event)"  >
+                    <mat-option *ngFor="let itemGroup of filteredItemGroup | async" [value]="itemGroup">
+                      {{ itemGroup.name }}
+                    </mat-option>
+                    <button mat-button *ngIf="filteredItemGroup | async as itemGroup" (click)="loadMoreOptionsItemGroup()" class="load-more-button">
+                      Ver mais
+                    </button>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+            </div>
+
+          </mat-tab><mat-tab label="Fornecedor">
+            <div class="container">
+              <div class="form-group dense-3">
+                <label for="userType">Fornecedor:</label>
+                <mat-form-field appearance="outline">
+                  <input type="text" placeholder="Selecione" aria-label="Colaborador" matInput
+                    formControlName="supplierId" [matAutocomplete]="autoSupplier" class="inputIgnore" />
+                  <mat-autocomplete  #autoSupplier="matAutocomplete"
+                    [displayWith]="displaySupllier" (optionSelected)="onSupplierSelection($event)">
+                    <mat-option *ngFor="let supplier of filteredSupplier | async" [value]="supplier">
+                      {{ supplier.name }}
+                    </mat-option>
+                    <button mat-button *ngIf="filteredSupplier | async as supplier" (click)="loadMoreOptionsSupplier()" class="load-more-button">
+                      Ver mais
+                    </button>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="container">
+              <div class="col-12 col-sm col-lg-4 col-xl-3">
+                <div class="form-group dense-3">
+                  <label for="userType">Unidade de medida:</label>
+                  <mat-form-field appearance="outline">
+                    <mat-select  formControlName="unit" (selectionChange)="onSelectChange($event)">
+                      <mat-option
+                      *ngFor="let unit of units | keyvalue" [value]="unit.value"
+                      >
+                      {{ unit.key }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-12 col-sm col-lg-4 col-xl-3">
+                <div class="form-group dense-3">
+                  <label for="userType">Marca do Produto:</label>
+                  <mat-form-field appearance="outline">
+                    <input type="text" placeholder="Selecione" aria-label="Colaborador" matInput
+                      formControlName="brandId" [matAutocomplete]="autoBrand" class="inputIgnore" />
+                    <mat-autocomplete  #autoBrand="matAutocomplete"
+                      [displayWith]="displayBrand" (optionSelected)="onBrandSelection($event)">
+                      <mat-option *ngFor="let brand of filteredBrands | async" [value]="brand">
+                        {{ brand.fantasyName }}
+                      </mat-option>
+                      <button mat-button *ngIf="filteredBrands | async as brands" (click)="loadMoreOptionsBrand()" class="load-more-button">
+                        Ver mais
+                      </button>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+          </mat-tab>
+          <mat-tab disabled label="Fiscal">Content 3</mat-tab>
+          <mat-tab label="Movimentações">
+            <div class="container">
+              <div id="content">
+
+
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Data de Movimentação</th>
+                      <th>Tipo de Movimentação</th>
+                      <th>Quantidade</th>
+                      <!-- Outras colunas, se necessário -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let movement of dataMovement" [ngClass]="{'entrada': movement.movementType === 1}">
+                      <td>{{ movement.dateMoviment | date:'dd/MM/yyyy' }}</td>
+                      <td>{{ movement.movementType === 1 ? 'Entrada' : 'Saída' }}</td>
+                      <td>{{ movement.quantity }}</td>
+
+                    </tr>
+                  </tbody>
+                </table>
+          </div>
+        </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </form>
+  </div>
+
+</app-edit-view>

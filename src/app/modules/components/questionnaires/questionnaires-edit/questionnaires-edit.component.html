@@ -1,0 +1,111 @@
+<app-edit-view
+  [isCreatePage]="isCreatePage"
+  [saveEnabled]="hasChanges"
+  [discardEnabled]="hasChanges && !isCreatePage"
+  [title]="isCreatePage ? 'Criar questionário' : 'Editar questionário'"
+  (onSave)="onSave()"
+  (onDelete)="onDelete()"
+  (onCancel)="onCancel()"
+  (onDiscard)="promptDiscardChanges()"
+  (onClearFields)="promptClearFields()"
+>
+  <div id="container">
+    <div class="row">
+      <div class="col-12 col-sm-7 col-md-8 col-lg-6 col-xl-4">
+        <div class="form-group">
+          <label for="name">Título:</label>
+          <input
+            type="text"
+            maxlength="50"
+            id="name"
+            name="name"
+            [(ngModel)]="model.title"
+            class="form-control"
+            (change)="inputChanged()"
+            tabindex="1"
+          />
+          <span class="txtRemaining">{{ model.title.length }}/50</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-lg-10 col-xl-8">
+        <h3>Perguntas:</h3>
+
+        <div id="questionsContainer">
+          <div
+            *ngFor="let question of model.questions; let i = index"
+            class="question"
+          >
+            <div class="questionHeader">
+              <p>#{{ i + 1 }}</p>
+              <div>
+                <i
+                (click)="promptDeleteQuestion(question)"
+                  class="material-icons"
+                  matTooltip="Excluir pergunta"
+                  matTooltipShowDelay="600"
+                  >delete_outline</i
+                >
+              </div>
+            </div>
+            <div class="questionBody">
+              <div class="row">
+                <div class="col col-12 col-sm-12 col-md-8 col-lg-5">
+                  <div class="form-group txtContainer">
+                    <label [for]="'text_' + i">Texto:</label>
+                    <textarea
+                      maxlength="255"
+                      type="text"
+                      [name]="'text_' + i"
+                      rows="3"
+                      [(ngModel)]="question.text"
+                      class="form-control"
+                      (change)="inputChanged()"
+                      [tabindex]="1 + 3 * i + 1"
+                    ></textarea>
+                    <span class="txtRemaining"
+                      >{{ question.text.length }}/255</span
+                    >
+                  </div>
+                </div>
+                <div class="col col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div class="form-group dense-3">
+                    <label [for]="'type_' + i">Tipo de resposta:</label>
+                    <mat-form-field appearance="outline">
+                      <mat-select [value]="question.type.toLowerCase()">
+                        <mat-option
+                          *ngFor="let type of ANSWER_TYPES"
+                          [value]="type[1]"
+                          (onSelectionChange)="onAnswerTypeSelect(question, type[1], $event)"
+                        >
+                          {{ type[0] }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col col-12 col-sm-auto">
+                  <div class="frow" [ngClass]="{checkboxContainer: facade.layout.Fits([facade.layout.ViewPorts.LG, facade.layout.ViewPorts.XL, facade.layout.ViewPorts.SM])}">
+                    <mat-checkbox
+                      [(ngModel)]="question.isAnswerRequired"
+                      [color]="'primary'"
+                      (change)="onAnswerRequiredToggle(question)"
+                    >
+                      Resposta Obrigatória
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button (click)="onNewQuestion()" id="btnAddQuestion" class="btnIgnore">
+            <i class="material-icons">add</i>
+            <p>Nova pergunta</p>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-edit-view>

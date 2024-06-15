@@ -1,0 +1,25 @@
+<div id="container" class="fcol">
+  <div id="content">
+    <div id="outlet" class="row">
+      <div id="panelCol" class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
+        <div id="panel">
+          <div id="logoContainer">
+            <img
+              src="../../../../../assets/svg/dex7-logo.svg"
+              alt="SVG image"
+            />
+          </div>
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+
+  <app-loading
+    [cover]="false"
+    [visible]="loadingService.active"
+    [message]="loadingService.message"
+  ></app-loading>
+</div>

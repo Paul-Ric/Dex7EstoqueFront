@@ -1,0 +1,309 @@
+<app-edit-view
+  [isCreatePage]="isCreatePage"
+  [saveEnabled]="hasChanges"
+  [discardEnabled]="hasChanges && !isCreatePage"
+  [title]="isCreatePage ? 'Criar Ordem de Serviço' : 'Editar Ordem de Serviço'"
+  (onSave)="onSave()"
+  (onDelete)="onDelete()"
+  (onCancel)="onCancel()"
+  (onDiscard)="promptDiscardChanges()"
+  (onClearFields)="promptClearFields()"
+>
+  <div id="container">
+    <div class="row">
+      <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-2">
+        <div class="form-group dense-3">
+          <label for="status">Status:</label>
+          <mat-form-field appearance="outline">
+            <mat-select id="status" [value]="model.status.toLowerCase()">
+              <mat-option
+                *ngFor="let type of OS_STATUS"
+                [value]="type[0]"
+                (onSelectionChange)="onOsStatusSelect(type[0], $event)"
+              >
+                {{ type[1] }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+        <div class="form-group dense-3">
+          <label for="osType">Tipo de OS:</label>
+          <mat-form-field appearance="outline">
+            <input
+              type="text"
+              placeholder="Selecione"
+              aria-label="Tipo de OS"
+              matInput
+              [(ngModel)]="model.type.name"
+              [matAutocomplete]="autoOsType"
+              class="inputIgnore"
+              name="osType"
+              id="osType"
+              (change)="onOsTypeComplete()"
+              (ngModelChange)="onOsTypeChange($event)"
+            />
+            <button
+              class="btnIgnore"
+              *ngIf="model.type.name"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="model.type.name = ''; onOsTypeChange('')"
+              tabindex="-1"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-autocomplete #autoOsType="matAutocomplete">
+              <mat-option
+                *ngFor="let osType of facade.currentOsTypesList"
+                [value]="osType.name"
+                (onSelectionChange)="onOsTypeSelect(osType.id, $event)"
+              >
+                {{ osType.name }}
+              </mat-option>
+              <div *ngIf="hasMoreOsTypes" class="frow w100 just_center">
+                <button
+                  (click)="onSeeMoreOsTypes()"
+                  id="btnOsTypeSeeMore"
+                  class="btnIgnore btnSeeMore"
+                >
+                  Ver mais
+                </button>
+              </div>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-2">
+        <div class="form-group dense-3">
+          <label for="priority">Prioridade:</label>
+          <mat-form-field appearance="outline">
+            <mat-select id="priority" [value]="model.priority.toLowerCase()">
+              <mat-option
+                *ngFor="let type of OS_PRIORITIES"
+                [value]="type[0]"
+                (onSelectionChange)="onOsPrioritySelect(type[0], $event)"
+              >
+                {{ type[1] }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-4">
+        <div class="form-group dense-3">
+          <label for="responsibleCollaborator">Colaborador Responsável:</label>
+          <mat-form-field appearance="outline">
+            <input
+              type="text"
+              placeholder="Selecione"
+              aria-label="Responsável"
+              matInput
+              [(ngModel)]="model.responsible.name"
+              [matAutocomplete]="autoResponsible"
+              class="inputIgnore"
+              name="responsibleCollaborator"
+              id="responsibleCollaborator"
+              (change)="onResponsibleComplete()"
+              (ngModelChange)="onResponsibleChange($event)"
+            />
+            <button
+              class="btnIgnore"
+              *ngIf="model.responsible.name"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="model.responsible.name = ''; onResponsibleChange('')"
+              tabindex="-1"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-autocomplete #autoResponsible="matAutocomplete">
+              <mat-option
+                *ngFor="let collaborator of facade.currentCollaboratorsList"
+                [value]="collaborator.name"
+                (onSelectionChange)="
+                  onResponsibleSelect(collaborator.id, $event)
+                "
+              >
+                {{ collaborator.name }}
+              </mat-option>
+              <div *ngIf="hasMoreCollaborators" class="frow w100 just_center">
+                <button
+                  (click)="onSeeMoreCollaborators()"
+                  id="btnCollaboratorSeeMore"
+                  class="btnIgnore btnSeeMore"
+                >
+                  Ver mais
+                </button>
+              </div>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-4">
+        <div class="form-group dense-3">
+          <label for="client">Cliente:</label>
+          <mat-form-field appearance="outline">
+            <input
+              type="text"
+              placeholder="Selecione"
+              aria-label="Cliente"
+              matInput
+              [(ngModel)]="model.client.name"
+              [matAutocomplete]="autoClient"
+              class="inputIgnore"
+              name="client"
+              id="client"
+              (change)="onClientComplete()"
+              (ngModelChange)="onClientChange($event)"
+            />
+            <button
+              class="btnIgnore"
+              *ngIf="model.client.name"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="model.client.name = ''; onClientChange('')"
+              tabindex="-1"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-autocomplete #autoClient="matAutocomplete">
+              <mat-option
+                *ngFor="let client of facade.currentClientsList"
+                [value]="client.name"
+                (onSelectionChange)="onClientSelect(client.id, $event)"
+              >
+                {{ client.name }}
+              </mat-option>
+              <div *ngIf="hasMoreClients" class="frow w100 just_center">
+                <button
+                  (click)="onSeeMoreClients()"
+                  id="btnClientSeeMore"
+                  class="btnIgnore btnSeeMore"
+                >
+                  Ver mais
+                </button>
+              </div>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+        <div class="form-group dense-3">
+          <label for="startDate">Data de início:</label>
+          <mat-form-field appearance="outline">
+            <input
+              id="startDate"
+              name="startDate"
+              placeholder="Selecione uma data"
+              class="inputIgnore"
+              matInput
+              [ngxMatDatetimePicker]="startDate"
+              [(ngModel)]="model.startDate"
+              (dateChange)="onStartDateChange()"
+            />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="$any(startDate)"
+            ></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #startDate [showSeconds]="false">
+
+            </ngx-mat-datetime-picker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+        <div class="form-group dense-3">
+          <label for="startDate">Expectativa de finalização:</label>
+          <mat-form-field appearance="outline">
+            <input
+              id="endDate"
+              name="endDate"
+              placeholder="Selecione uma data"
+              class="inputIgnore"
+              matInput
+              [ngxMatDatetimePicker]="endDate"
+              [(ngModel)]="model.expectedCompletionDate"
+              (dateChange)="inputChanged()"
+            />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="$any(endDate)"
+            ></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #endDate [showSeconds]="false">
+
+            </ngx-mat-datetime-picker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-lg-5 col-xl-4">
+        <div class="form-group">
+          <label for="description">Descrição:</label>
+          <textarea
+            maxlength="255"
+            type="text"
+            id="description"
+            name="description"
+            rows="5"
+            [(ngModel)]="model.description"
+            class="form-control"
+            (change)="inputChanged()"
+          ></textarea>
+          <span class="txtRemaining">{{ model.description.length }}/255</span>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-lg-5 col-xl-4">
+        <div class="form-group">
+          <label for="workDone">Trabalho Realizado:</label>
+          <textarea
+            maxlength="255"
+            type="text"
+            id="workDone"
+            name="workDone"
+            rows="5"
+            [(ngModel)]="model.workDone"
+            class="form-control"
+            (change)="inputChanged()"
+          ></textarea>
+          <span class="txtRemaining">{{ model.workDone.length }}/255</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-lg-5 col-xl-4">
+        <div class="form-group">
+          <label for="note">Observação:</label>
+          <textarea
+            maxlength="255"
+            type="text"
+            id="note"
+            name="note"
+            rows="5"
+            [(ngModel)]="model.note"
+            class="form-control"
+            (change)="inputChanged()"
+          ></textarea>
+          <span class="txtRemaining">{{ model.note.length }}/255</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-edit-view>

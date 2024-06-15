@@ -1,0 +1,343 @@
+<app-edit-view (onSave)="onSave()"
+>
+  <div id="container">
+    <form [formGroup]="resourceForm">
+      <div class="row">
+        <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-4">
+          <div class="form-group dense-3">
+            <label for="">Codigo</label>
+            <input type="text" formControlName="code" maxlength="14" id="pis" name="pis" class="form-control" />
+          </div>
+        </div>
+        <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-4">
+          <div class="form-group dense-3">
+            <label for="">Dt Emissão</label>
+            <mat-form-field appearance="outline">
+              <input id="hiringDate" name="hiringDate" formControlName="issuanceDate" placeholder="dd/mm/aaaa" class="inputIgnore" matInput
+                [matDatepicker]="hiringDate" />
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="hiringDate"></mat-datepicker-toggle>
+              <mat-datepicker #hiringDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-12 col-sm col-lg-4 col-xl-3">
+          <div class="form-group dense-3">
+            <label for="userType">Especie:</label>
+            <mat-form-field appearance="outline">
+              <mat-select placeholder="Selecione uma espécie" formControlName="species">
+                <mat-option *ngFor="let species of SPECIES" [value]="species.id">
+                  {{ species.species }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-4">
+          <div class="form-group dense-3">
+            <label for="">Cliente</label>
+            <mat-form-field appearance="outline">
+            <input type="text" formControlName="client"  class="form-control" matInput  [matAutocomplete]="autoItem" class="inputIgnore"/>
+            <mat-autocomplete  #autoItem="matAutocomplete"
+                    [displayWith]="displayItemGroup" (optionSelected)="onItemSelection($event)"  >
+                    <mat-option *ngFor="let itemGroup of filteredClients | async" [value]="itemGroup">
+                      {{ itemGroup.name }}
+                    </mat-option>
+                    <button mat-button *ngIf="filteredClients | async as itemGroup" (click)="loadMoreOptionsItemGroup()" class="load-more-button">
+                      Ver mais
+                    </button>
+                  </mat-autocomplete>
+          </mat-form-field>
+          </div>
+        </div>
+        <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-4">
+          <div class="form-group dense-3">
+            <label for="">Responsável</label>
+            <input type="text" formControlName="responsible" class="form-control" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="divider">
+          <div class="trailingLine"></div>
+          <h3>Detalhes Itens:</h3>
+          <div class="leadingLine"></div>
+        </div>
+        <div class="container">
+          <div class="itemsContainer">
+            <div formArrayName="items">
+              <div *ngFor="let itemForm of formItems.controls; let i = index" class="addedItem">
+                <div class="addedItemBody" [formGroupName]="i">
+                  <div class="row">
+                    <div class="col-12 col-md-6">
+                      <div class="form-group">
+                        <label>Item:</label>
+                        <input type="text" formControlName="item" maxlength="50"
+                          placeholder="Digite ou clique para selecionar o item" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="col-12 col-md">
+                      <div class="row">
+                        <div class="col">
+                          <div class="form-group">
+                            <label>Quantidade:</label>
+                            <input type="text" formControlName="quantidade" maxlength="50" placeholder="1.00"
+                              class="form-control" currencyMask [options]="{
+                                prefix: '',
+                                thousands: '.',
+                                decimal: ',',
+                                allowNegative: false,
+                              }" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md">
+                      <div class="row">
+                        <div class="col">
+                          <div class="form-group">
+                            <label>Valor:</label>
+                            <input type="text" formControlName="valor" maxlength="50" placeholder="0.00"
+                              class="form-control" currencyMask [options]="{
+                                prefix: 'R$ ',
+                                thousands: '.',
+                                decimal: ',',
+                                allowNegative: false,
+                              }" />
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <div class="frow h100 align_center">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md">
+                      <div class="row">
+                        <div class="col">
+                          <div class="form-group">
+                            <label>Desconto:</label>
+                            <input type="text" formControlName="desconto" currencyMask [options]="{
+                              prefix: '',
+                              thousands: '.',
+                              decimal: ',',
+                              allowNegative: false,
+                            }" maxlength="50" placeholder="0" class="form-control" />
+
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <div class="frow h100 align_center">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md">
+                      <div class="row">
+                        <div class="col">
+                          <div class="form-group">
+                            <label>Sub-Total:</label>
+                            <input type="text" formControlName="subtotal" maxlength="50" placeholder="0.00"
+                              [value]="calculateSubtotal(itemForm) | currency:'BRL':'symbol':'1.2-2'"
+                              class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <div class="frow h100 align_center">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="deleteItemContainer" *ngIf="i !== 0">
+                  <i class="material-icons" matTooltip="Excluir filho" matTooltipShowDelay="600"
+                    (click)="removeItem('items', i)">delete_outline</i>
+                </div>
+              </div>
+            </div>
+            <button class="btnAddItem" (click)="addItem('items')">
+              <i class="material-icons">add</i>
+              <p>Adicionar Item</p>
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="row">
+        <div class="divider">
+          <div class="trailingLine"></div>
+          <h3>Serviços:</h3>
+          <div class="leadingLine"></div>
+        </div>
+        <div class="container">
+          <div class="itemsContainer">
+            <div formArrayName="services">
+              <div *ngFor="let itemForm of formServices.controls; let i = index" class="addedItem">
+                <div class="addedItemBody" [formGroupName]="i">
+                  <div class="row">
+                    <div class="col-12 col-md-6">
+                      <div class="form-group">
+                        <label>Item:</label>
+                        <input type="text" formControlName="item" maxlength="50"
+                          placeholder="Digite ou clique para selecionar o item" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="col-12 col-md">
+                      <div class="row">
+                        <div class="col">
+                          <div class="form-group">
+                            <label>Quantidade:</label>
+                            <input type="text" formControlName="quantidade" maxlength="50" placeholder="1.00"
+                              class="form-control" currencyMask [options]="{
+                                prefix: '',
+                                thousands: '.',
+                                decimal: ',',
+                                allowNegative: false,
+                              }" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md">
+                      <div class="row">
+                        <div class="col">
+                          <div class="form-group">
+                            <label>Valor:</label>
+                            <input type="text" formControlName="valor" maxlength="50" placeholder="0.00"
+                              class="form-control" currencyMask [options]="{
+                                prefix: 'R$ ',
+                                thousands: '.',
+                                decimal: ',',
+                                allowNegative: false,
+                              }" />
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <div class="frow h100 align_center">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md">
+                      <div class="row">
+                        <div class="col">
+                          <div class="form-group">
+                            <label>Desconto:</label>
+                            <input type="text" formControlName="desconto" maxlength="50" placeholder="0"
+                              class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <div class="frow h100 align_center">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md">
+                      <div class="row">
+                        <div class="col">
+                          <div class="form-group">
+                            <label>Sub-Total:</label>
+                            <input type="text" formControlName="subtotal" maxlength="50" placeholder="0.00"
+                              [value]="calculateSubtotal(itemForm) | currency:'BRL':'symbol':'1.2-2'">
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <div class="frow h100 align_center">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="deleteItemContainer" *ngIf="i !== 0">
+                  <i class="material-icons" matTooltip="Excluir filho" matTooltipShowDelay="600"
+                    (click)="removeItem('services', i)">delete_outline</i>
+                </div>
+              </div>
+            </div>
+            <button class="btnAddItem" (click)="addItem('services')">
+              <i class="material-icons">add</i>
+              <p>Adicionar Item</p>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="divider">
+          <div class="trailingLine"></div>
+          <h3>Total:</h3>
+          <div class="leadingLine"></div>
+        </div>
+        <div class="container">
+          <div class="itemsContainer">
+            <div class="addedItem">
+              <div class="addedItemBody">
+                <div class="row">
+                  <div class="col-12 col-md">
+                    <div class="form-group">
+                      <label>Item:</label>
+                      <input type="text" maxlength="50" placeholder="0,00" class="form-control"
+                        [value]="calculateTotalItems() | currency:'BRL':'symbol':'1.2-2'" disabled />
+                    </div>
+                  </div>
+                  <div class="col-12 col-md">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Serviços:</label>
+                          <input type="text" maxlength="50" placeholder="0,00" class="form-control"
+                            [value]="calculateTotalServices() | currency:'BRL':'symbol':'1.2-2'" disabled />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Valor Total:</label>
+                          <input type="text" maxlength="50" placeholder="0.00" class="form-control"
+                            [value]="calculateTotalItems() + calculateTotalServices() | currency:'BRL':'symbol':'1.2-2'" />
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <div class="frow h100 align_center">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="divider">
+          <div class="trailingLine"></div>
+          <h3>Observações:</h3>
+          <div class="leadingLine"></div>
+        </div>
+        <div class="container">
+          <div class="">
+
+            <div class="form-group">
+              <label for="description">Descrição:</label>
+              <textarea maxlength="255" type="text" formControlName="description" class="form-control" rows="5"></textarea>
+              <span class="txtRemaining">/255</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</app-edit-view>

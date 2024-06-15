@@ -1,0 +1,14 @@
+@import "../../../node_modules/material-icons-font/sass/variables";
+@import "../../../node_modules/material-icons-font/sass/mixins";
+$MaterialIcons_FontPath: "../../../node_modules/material-icons-font/fonts";
+@import "../../../node_modules/material-icons-font/sass/main";
+@import "../../../node_modules/material-icons-font/sass/Regular";
+
+@import './normalize';
+@import './typography';
+@import './responsivity';
+@import './alignment';
+@import './colors';
+@import './effects';
+@import './modal';
+@import './theme'

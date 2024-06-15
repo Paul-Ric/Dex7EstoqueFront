@@ -1,0 +1,17 @@
+@mixin BtnHover($brightnessPercentage) {
+  -webkit-transition: filter 0.3s ease;
+  -moz-transition: filter 0.3s ease;
+  -o-transition: filter 0.3s ease;
+  -ms-transition: filter 0.3s ease;
+  transition: filter 0.3s ease;
+
+  &:hover {
+    color: $white;
+    filter: brightness($brightnessPercentage) contrast(80%);
+    cursor: pointer;
+  }
+}
+
+@mixin PanelShadow() {
+  box-shadow: 0px 0 5px transparentize($color: $plate_gray, $amount: 0.5);
+}

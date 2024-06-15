@@ -1,0 +1,13 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <h1>{{title}}</h1>
+    <i class="material-icons btnClose mat-icon-size" (click)="onClose()">close</i>
+  </div>
+  <div class="modal-body">
+    <ng-content></ng-content>
+  </div>
+  <div class="modal-footer">
+    <button (click)="onEditClick()" class="btnBlue" tabindex="0">Editar</button>
+    <button (click)="onOkClick()" class="btnGreen" tabindex="0">Ok</button>
+  </div>
+</div>

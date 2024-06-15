@@ -1,0 +1,711 @@
+<app-edit-view
+  [isCreatePage]="isCreatePage"
+  [saveEnabled]="hasChanges"
+  [discardEnabled]="hasChanges && !isCreatePage"
+  [title]="isCreatePage ? 'Criar Colaborador' : 'Editar Colaborador'"
+  (onSave)="onSave()"
+  (onDelete)="onDelete()"
+  (onCancel)="onCancel()"
+  (onDiscard)="promptDiscardChanges()"
+  (onClearFields)="promptClearFields()"
+>
+  <div id="container">
+    <div class="row">
+      <div class="col-12 col-sm-auto align_center just_center imgCol">
+        <div
+          id="imageContainer"
+          [ngClass]="{ mobile: facade.layout.isXS$ | async }"
+        >
+          <div id="imageActions">
+            <button id="btnDeleteImage" *ngIf="profilePictureUrl && profilePictureUrl.length > 0" class="btnIgnore" (click)="promptDeleteImage()">
+              <i class="material-icons">delete</i> Remover
+            </button>
+            <button class="btnIgnore" (click)="file.click()">
+              <i class="material-icons">edit</i> Editar
+            </button>
+            <input
+              type="file"
+              hidden
+              accept=".png, .jpg, .jpeg"
+              #file
+              type="file"
+              (change)="onFileChange($event)"
+            />
+          </div>
+          <img
+            *ngIf="profilePictureUrl"
+            [src]="profilePictureUrl"
+            alt="Foto de perfil."
+          />
+          <div *ngIf="!profilePictureUrl" id="defaultImg">
+            <i class="material-icons">person</i>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm col-md-6 col-lg-5">
+        <div class="form-group">
+          <label for="name">Nome:</label>
+          <input
+            type="text"
+            maxlength="50"
+            id="name"
+            name="name"
+            [(ngModel)]="model.name"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+          <span class="txtRemaining">{{ model.name.length }}/50</span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm col-lg-4 col-xl-3">
+        <div class="form-group dense-3">
+          <label for="userType">Tipo de usuário:</label>
+          <mat-form-field appearance="outline">
+            <mat-select id="userType" [value]="model.userType.toLowerCase()">
+              <mat-option
+                *ngFor="let type of USER_TYPES"
+                [value]="type[1]"
+                (onSelectionChange)="onUserTypeSelect(type[1], $event)"
+              >
+                {{ type[0] }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-md-7 col-lg-6 col-xl-5">
+        <div class="form-group">
+          <label for="role">Cargo:</label>
+          <input
+            type="text"
+            maxlength="50"
+            id="role"
+            name="role"
+            [(ngModel)]="model.role"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+          <span class="txtRemaining">{{ model.role.length }}/50</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-4">
+        <div class="form-group">
+          <label for="login">Login:</label>
+          <input
+            type="text"
+            maxlength="100"
+            id="login"
+            name="login"
+            [(ngModel)]="model.login"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+          <span class="txtRemaining">{{ model.login.length }}/100</span>
+        </div>
+      </div>
+      <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-4">
+        <div class="form-group">
+          <label for="password">Senha:</label>
+          <input
+            [disabled]="!isCreatePage"
+            type="password"
+            maxlength="100"
+            id="password"
+            name="password"
+            [(ngModel)]="model.password"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+          <span class="txtRemaining">{{ model.password.length }}/128</span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm-4 col-lg-4 col-xl-3">
+        <div class="form-group dense-3">
+          <label for="hiringDate">Data de contratação:</label>
+          <mat-form-field appearance="outline">
+            <input
+              id="hiringDate"
+              name="hiringDate"
+              placeholder="dd/mm/aaaa"
+              class="inputIgnore"
+              matInput
+              [matDatepicker]="hiringDate"
+              [(ngModel)]="model.hiringDate"
+              (change)="inputChanged()"
+            />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="hiringDate"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #hiringDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-12 col-sm-4 col-lg-4 col-xl-3">
+        <div class="form-group dense-3">
+          <label for="hiringDate">Data de demissão:</label>
+          <mat-form-field appearance="outline">
+            <input
+              id="resignationDate"
+              name="resignationDate"
+              placeholder="dd/mm/aaaa"
+              class="inputIgnore"
+              matInput
+              [matDatepicker]="resignationDate"
+              [(ngModel)]="model.resignationDate"
+              (change)="inputChanged()"
+            />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="resignationDate"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #resignationDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-12 col-sm-4 col-lg-2 col-xl-2">
+        <div class="form-group dense-3">
+          <label for="creationDate">Data de criação:</label>
+          <mat-form-field appearance="outline">
+            <input
+              disabled
+              id="creationDate"
+              name="creationDate"
+              placeholder="dd/mm/aaaa"
+              class="inputIgnore"
+              matInput
+              [matDatepicker]="creationDate"
+              [ngModel]="model.creationDate | date : 'yyyy-MM-dd'"
+              (ngModelChange)="model.creationDate = $event"
+              (change)="inputChanged()"
+            />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="creationDate"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #creationDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-2">
+        <div class="form-group">
+          <label for="salary">Salário:</label>
+          <input
+            currencyMask
+            [options]="{
+              prefix: 'R$ ',
+              thousands: '.',
+              decimal: ',',
+              allowNegative: false,
+            }"
+            id="salary"
+            name="salary"
+            [(ngModel)]="model.salary"
+            (change)="inputChanged()"
+          />
+        </div>
+      </div>
+      <div class="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-2">
+        <div class="form-group">
+          <label for="comission">Comissão:</label>
+          <input
+            currencyMask
+            [options]="{
+              align:'left',
+              prefix: 'R$ ',
+              thousands: '.',
+              decimal: ',',
+              allowNegative: false,
+            }"
+            id="comission"
+            name="comission"
+            [(ngModel)]="model.comission"
+            (change)="inputChanged()"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">
+      <div class="trailingLine"></div>
+      <h3>Documentação</h3>
+      <div class="leadingLine"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-3">
+        <div class="form-group">
+          <label for="cpf">CPF:</label>
+          <input
+            mask="000.000.000-00"
+            placeholder="000.000.000-00"
+            type="text"
+            maxlength="14"
+            id="cpf"
+            name="cpf"
+            [(ngModel)]="model.cpf"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+          <span class="txtRemaining">{{ model.cpf.length }}/11</span>
+        </div>
+      </div>
+      <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-3">
+        <div class="form-group">
+          <label for="rg">RG:</label>
+          <input
+            type="text"
+            maxlength="14"
+            id="rg"
+            name="rg"
+            [(ngModel)]="model.rg"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+          <span class="txtRemaining">{{ model.rg.length }}/14</span>
+        </div>
+      </div>
+      <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-3">
+        <div class="form-group">
+          <label for="cnh">CNH:</label>
+          <input
+            mask="0000000000"
+            placeholder="0000000000"
+            type="text"
+            maxlength="10"
+            id="cnh"
+            name="cnh"
+            [(ngModel)]="model.cnh"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+          <span class="txtRemaining">{{ model.cnh.length }}/10</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-3">
+        <div class="form-group">
+          <label for="cnpj">CNPJ:</label>
+          <input
+            mask="00.000.000/0000-00"
+            placeholder="00.000.000/0000-00"
+            type="text"
+            maxlength="18"
+            id="cnpj"
+            name="cnpj"
+            [(ngModel)]="model.cnpj"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+          <span class="txtRemaining">{{ model.cnpj.length }}/14</span>
+        </div>
+      </div>
+      <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-3">
+        <div class="form-group">
+          <label for="pis">PIS:</label>
+          <input
+            mask="000.00000.00-0"
+            placeholder="000.00000.00-0"
+            type="text"
+            maxlength="14"
+            id="pis"
+            name="pis"
+            [(ngModel)]="model.pis"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+          <span class="txtRemaining">{{ model.pis.length }}/11</span>
+        </div>
+      </div>
+
+      <div class="col col-12 col-sm-auto">
+        <div
+          class="frow align_center h100"
+          [ngClass]="{
+            checkboxContainer: facade.layout.Fits([
+              facade.layout.ViewPorts.LG,
+              facade.layout.ViewPorts.XL,
+              facade.layout.ViewPorts.SM
+            ])
+          }"
+        >
+          <mat-checkbox
+            [(ngModel)]="model.isMEI"
+            [color]="'primary'"
+            (change)="inputChanged()"
+          >
+            MEI
+          </mat-checkbox>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-3">
+        <div class="form-group">
+          <label for="wife">Esposa:</label>
+          <input
+            type="text"
+            maxlength="50"
+            id="wife"
+            name="wife"
+            [(ngModel)]="model.wife"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+          <span class="txtRemaining">{{ model.wife.length }}/50</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <label>Filhos:</label>
+      <div class="col col-lg-10 col-xl-8">
+        <div class="itemsContainer">
+          <div
+            *ngFor="let child of model.children; let i = index"
+            class="addedItem"
+          >
+            <div class="addedItemBody">
+              <div class="row">
+                <div class="col col-12 col-md-6">
+                  <div class="form-group">
+                    <label [for]="'childName_' + i">Nome:</label>
+                    <input
+                      type="text"
+                      maxlength="50"
+                      [id]="'childName_' + i"
+                      [name]="'childName_' + i"
+                      [(ngModel)]="child.name"
+                      class="form-control"
+                      (change)="inputChanged()"
+                    />
+                    <span class="txtRemaining">{{ child.name.length }}/50</span>
+                  </div>
+                </div>
+                <div class="col-12 col-md">
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group dense-3">
+                        <label [for]="'childBirthDate_' + i"
+                          >Data de nascimento:</label
+                        >
+                        <mat-form-field appearance="outline">
+                          <input
+                            [id]="'childBirthDate_' + i"
+                            [attr.name]="'childBirthDate_' + i"
+                            placeholder="dd/mm/aaaa"
+                            class="inputIgnore"
+                            matInput
+                            [matDatepicker]="childBirthDate"
+                            [(ngModel)]="child.birthDate"
+                            (change)="inputChanged()"
+                          />
+                          <mat-hint>MM/DD/YYYY</mat-hint>
+                          <mat-datepicker-toggle
+                            matIconSuffix
+                            [for]="childBirthDate"
+                          ></mat-datepicker-toggle>
+                          <mat-datepicker #childBirthDate></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <div class="frow h100 align_center">
+                        <label>({{ child.birthDate | asAge }} anos)</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="deleteItemContainer">
+              <i
+                (click)="promptDeleteChild(child)"
+                class="material-icons"
+                matTooltip="Excluir filho"
+                matTooltipShowDelay="600"
+                >delete_outline</i
+              >
+            </div>
+          </div>
+          <button (click)="onNewChild()" class="btnIgnore btnAddItem">
+            <i class="material-icons">add</i>
+            <p>Adicionar filho</p>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">
+      <div class="trailingLine"></div>
+      <h3>Endereço</h3>
+      <div class="leadingLine"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-sm col-md col-lg-5">
+        <div class="form-group">
+          <label for="street">Rua:</label>
+          <input
+            type="text"
+            maxlength="100"
+            id="street"
+            name="street"
+            [(ngModel)]="model.address.street"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+          <span class="txtRemaining"
+            >{{ model.address.street.length }}/100</span
+          >
+        </div>
+      </div>
+      <div class="col-12 col-sm-auto">
+        <div class="form-group">
+          <label for="number">Número:</label>
+          <input
+            type="number"
+            maxlength="100"
+            min="0"
+            id="number"
+            name="number"
+            [(ngModel)]="model.address.number"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-4">
+        <div class="form-group">
+          <label for="complement">Complemento:</label>
+          <input
+            type="text"
+            maxlength="150"
+            id="complement"
+            name="complement"
+            [(ngModel)]="model.address.complement"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+          <span class="txtRemaining"
+            >{{ model.address.complement.length }}/150</span
+          >
+        </div>
+      </div>
+      <div class="col-12 col-sm col-md-6 col-lg-5 col-xl-4">
+        <div class="form-group">
+          <label for="neighborhood">Bairro:</label>
+          <input
+            type="text"
+            maxlength="50"
+            id="neighborhood"
+            name="neighborhood"
+            [(ngModel)]="model.address.neighborhood"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+          <span class="txtRemaining"
+            >{{ model.address.neighborhood.length }}/50</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-5 col-lg-4 col-xl-3">
+        <div class="form-group">
+          <label for="city">Cidade:</label>
+          <input
+            type="text"
+            maxlength="50"
+            id="city"
+            name="city"
+            [(ngModel)]="model.address.city"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+          <span class="txtRemaining">{{ model.address.city.length }}/50</span>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
+        <div class="form-group dense-3">
+          <label for="state">Estado:</label>
+          <mat-form-field appearance="outline">
+            <mat-select id="state" [value]="model.address.state">
+              <mat-option
+                *ngFor="let state of facade.States"
+                [value]="state"
+                (onSelectionChange)="onStateSelect(state, $event)"
+              >
+                {{ state }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+        <div class="form-group">
+          <label for="cep">CEP:</label>
+          <input
+            mask="00000-000"
+            type="text"
+            maxlength="9"
+            id="cep"
+            name="cep"
+            [(ngModel)]="model.address.cep"
+            class="form-control"
+            (change)="inputChanged()"
+          />
+          <span class="txtRemaining">{{ model.address.cep.length }}/8</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">
+      <div class="trailingLine"></div>
+      <h3>Contato</h3>
+      <div class="leadingLine"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-lg-6">
+        <label>Telefones:</label>
+        <div class="itemsContainer">
+          <div
+            *ngFor="let phone of model.phoneNumbers; let i = index"
+            class="addedItem"
+          >
+            <div class="addedItemBody">
+              <div class="row">
+                <div class="col col-sm">
+                  <div class="form-group">
+                    <label [for]="'phoneNumber_' + i">Número:</label>
+                    <input
+                      [mask]="getPhoneMask(phone.number)"
+                      placeholder="(31) 9 0000-0000"
+                      type="text"
+                      maxlength="17"
+                      [id]="'phoneNumber_' + i"
+                      [name]="'phoneNumber_' + i"
+                      [(ngModel)]="phone.number"
+                      class="form-control"
+                      (change)="inputChanged()"
+                    />
+                    <span class="txtRemaining"
+                      >{{ phone.number.length }}/11</span
+                    >
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div
+                    class="frow align_center h100"
+                    [ngClass]="{
+                      checkboxContainer: facade.layout.Fits([
+                        facade.layout.ViewPorts.LG,
+                        facade.layout.ViewPorts.XL,
+                        facade.layout.ViewPorts.SM
+                      ])
+                    }"
+                  >
+                    <mat-checkbox
+                      [(ngModel)]="phone.isWhatsapp"
+                      [color]="'primary'"
+                      (change)="inputChanged()"
+                    >
+                      Whatsapp
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="deleteItemContainer">
+              <i
+                (click)="promptDeletePhoneNumber(phone)"
+                class="material-icons"
+                matTooltip="Excluir telefone"
+                matTooltipShowDelay="600"
+                >delete_outline</i
+              >
+            </div>
+          </div>
+          <button (click)="onNewPhoneNumber()" class="btnIgnore btnAddItem">
+            <i class="material-icons">add</i>
+            <p>Adicionar telefone</p>
+          </button>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <label>Emails:</label>
+        <div
+          class="itemsContainer"
+          [ngClass]="{
+            spaceLeft: facade.layout.Fits([
+              facade.layout.ViewPorts.LG,
+              facade.layout.ViewPorts.XL
+            ])
+          }"
+        >
+          <div
+            *ngFor="let email of model.emails; let i = index"
+            class="addedItem"
+          >
+            <div class="addedItemBody">
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label [for]="'email_' + i">Email:</label>
+                    <input
+                      placeholder="email@dominio.com"
+                      type="text"
+                      maxlength="100"
+                      [id]="'email_' + i"
+                      [name]="'email_' + i"
+                      [(ngModel)]="email.text"
+                      class="form-control"
+                      (change)="inputChanged()"
+                    />
+                    <span class="txtRemaining"
+                      >{{ email.text.length }}/100</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="deleteItemContainer">
+              <i
+                (click)="promptDeleteEmail(email)"
+                class="material-icons"
+                matTooltip="Excluir email"
+                matTooltipShowDelay="600"
+                >delete_outline</i
+              >
+            </div>
+          </div>
+          <button (click)="onNewEmail()" class="btnIgnore btnAddItem">
+            <i class="material-icons">add</i>
+            <p>Adicionar email</p>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-edit-view>

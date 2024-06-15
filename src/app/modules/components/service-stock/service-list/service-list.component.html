@@ -1,0 +1,17 @@
+<app-list-view
+[title]="'Serviço'"
+ [columns]="facade.LIST_COLUMNS"
+ [data]="this.facade.listServiceValues"
+ [loadingContent]="facade.loading"
+ [pageSize]="facade.MAX_PAGE_ITEMS"
+ [registerCount]="facade.count"
+ [foundCount]="facade.count"
+ [btnAddText]="'Novo Produto'"
+
+ (addNewEvent)="onBtnAddClick()"
+ (viewEvent)="onViewDetailsClick($event)"
+ (editEvent)="onEditClick($event)"
+  >
+
+
+</app-list-view>

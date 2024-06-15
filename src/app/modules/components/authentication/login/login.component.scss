@@ -1,0 +1,46 @@
+@import "../../../../../assets/scss/fuse.scss";
+
+
+#container{
+  // @include AllDivSpace();
+  padding: 15px;
+
+  #loginForm {
+    label {
+      margin-bottom: 5px;
+      font-size: min(max(2.2rem, 13px), 16px);
+      color: $medium_gray;
+    }
+
+    .form-group {
+      position: relative;
+      display: flex;
+      height: 100%;
+      flex: 1 1 auto;
+      flex-direction: column;
+      margin-bottom: 15px;
+
+      .txtRemaining {
+        font-size: min(max(2.2rem, 12px), 16px);
+        color: $medium_gray;
+        display: block;
+        position: absolute;
+        right: 20px;
+        top: 5px;
+      }
+    }
+
+    #btnLogin{
+      margin-top: 30px;
+      margin-bottom: 20px;
+      height: 40px;
+      width: 100%;
+    }
+
+    #appVersion{
+      color: $cool_gray;
+      font-size: min(max(1.5rem, 10px), 12px);
+    }
+
+  }
+}

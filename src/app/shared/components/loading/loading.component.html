@@ -1,0 +1,10 @@
+<div
+  [hidden]="!visible"
+  id="cover"
+  [ngClass]="{cover: cover}"
+>
+  <div id="spinnerContainer">
+    <mat-spinner class="customColorSpinner" [diameter]="80"></mat-spinner>
+  </div>
+  <h1>{{ message }}</h1>
+</div>

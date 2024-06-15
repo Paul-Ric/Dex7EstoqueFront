@@ -1,0 +1,17 @@
+<app-list-view
+  [title]="'Questionários'"
+  [registerCount]="facade.totalCount"
+  [foundCount]="facade.foundCount"
+  [pageSize]="facade.MAX_PAGE_ITEMS"
+  [btnAddText]="'Novo Questionário'"
+  [columns]="facade.LIST_COLUMNS"
+  [data]="this.facade.currentOrderedValues"
+  [loadingContent]="facade.loading"
+
+  (searchEvent)="onSearchChange($event)"
+  (addNewEvent)="onBtnAddClick()"
+  (editEvent)="onEditClick($event)"
+  (viewEvent)="onViewDetailsClick($event)"
+  (pageSelectedEvent)="onPageSelected($event)"
+>
+</app-list-view>

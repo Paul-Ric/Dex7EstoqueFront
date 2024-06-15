@@ -1,0 +1,22 @@
+@import "../../../../assets/scss/fuse.scss";
+
+:host{
+  @include AllDivSpace();
+}
+
+.errors{
+  margin: 10px auto 10px 10px;
+
+  .errorItem{
+    display: flex;
+    align-items: center;
+    font-size: min(max(2.3rem, 12px), 17px);
+    color: $plate_gray;
+
+    i{
+      margin-right: 5px;
+      color: $pantone_orange;
+      font-size: min(max(2.5rem, 14px), 19px);
+    }
+  }
+}

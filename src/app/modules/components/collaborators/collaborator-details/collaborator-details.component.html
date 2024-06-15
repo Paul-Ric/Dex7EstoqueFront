@@ -1,0 +1,298 @@
+<app-view-details-modal
+  [title]="'Detalhes do Colaborador'"
+  [id]="data.id"
+  (editClickEvent)="onEditClick($event)"
+>
+  <div id="container" [ngClass]="{ xSmall: facade.layout.isXS$ | async }">
+    <div class="row">
+      <div class="item col-auto">
+        <div id="imageContainer">
+          <img
+            *ngIf="profilePictureUrl"
+            [src]="profilePictureUrl"
+            alt="Foto de perfil."
+          />
+          <div *ngIf="!profilePictureUrl" id="defaultImg">
+            <i class="material-icons">person</i>
+          </div>
+        </div>
+      </div>
+      <div class="item col-auto">
+        <p class="label">Nome:</p>
+        <p class="value">{{ data.name }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="item col-auto col-sm-8">
+        <p class="label">Cargo:</p>
+        <p class="value">{{ data.role }}</p>
+      </div>
+      <div class="item col-auto col-sm-4">
+        <p class="label">Usuário:</p>
+        <p class="value">{{ facade.mapUserType(data.userType) }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="item col-12 col-sm-4">
+        <p class="label">Login:</p>
+        <p class="value">{{ data.login }}</p>
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="item col">
+            <p class="label">Salário:</p>
+            <p class="value">{{ data.salary | currency : "BRL" }}</p>
+          </div>
+          <div class="item col">
+            <p class="label">Comissão:</p>
+            <p class="value">{{ data.comission | currency : "BRL" }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="item col-4">
+        <p class="label">Criação:</p>
+        <p class="value">{{ data.creationDate | asDate }}</p>
+      </div>
+      <div class="col-12 col-sm">
+        <div class="row">
+          <div class="item col">
+            <p class="label">Contratação:</p>
+            <p *ngIf="data.hiringDate" class="value">
+              {{ data.hiringDate | asDate }}
+            </p>
+            <p *ngIf="!data.hiringDate" class="value">N/A</p>
+          </div>
+          <div class="item col">
+            <p class="label">Demissão:</p>
+            <p *ngIf="data.resignationDate" class="value">
+              {{ data.resignationDate | asDate }}
+            </p>
+            <p *ngIf="!data.resignationDate" class="value">N/A</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="docsOpened = true"
+            (closed)="docsOpened = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <p class="label">Documentação</p>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="accordionContent">
+              <div class="row">
+                <div class="col">
+                  <label class="label">CPF:</label>
+                  <p class="value">
+                    {{ data.cpf | hasValue : "N/A" }}
+                  </p>
+                </div>
+                <div class="col">
+                  <label class="label">CNPJ:</label>
+                  <p class="value">
+                    {{ data.cnpj | hasValue : "N/A" }}
+                  </p>
+                </div>
+                <div class="col">
+                  <label class="label">PIS:</label>
+                  <p class="value">
+                    {{ data.pis | hasValue : "N/A" }}
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <label class="label">RG:</label>
+                  <p class="value">
+                    {{ data.rg | hasValue : "N/A" }}
+                  </p>
+                </div>
+                <div class="col">
+                  <label class="label">CNH:</label>
+                  <p class="value">
+                    {{ data.cnh | hasValue : "N/A" }}
+                  </p>
+                </div>
+                <div class="col align_end">
+                  <div class="frow align_center">
+                    <i *ngIf="data.isMEI" class="material-icons true"
+                      >check_box</i
+                    >
+                    <i *ngIf="!data.isMEI" class="material-icons false"
+                      >check_box_outline_blank</i
+                    >
+                    <p>MEI</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col col-auto">
+                  <label class="label">Esposa:</label>
+                  <p class="value">
+                    {{ data.wife | hasValue : "N/A" }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col col-12">
+                  <label class="label">Filhos:</label>
+                  <div *ngFor="let child of data.children" class="row">
+                    <div class="col-12">
+                      <div class="frow align_end">
+                        <p class="value">
+                          {{ child.name }}
+                        </p>
+                        <p class="value" ngPreserveWhitespaces>
+                          &nbsp;-&nbsp;{{
+                            (child.birthDate | asAge) + " anos "
+                          }}
+                        </p>
+                        <label class="value">
+                          &nbsp;&nbsp;({{ child.birthDate | asDate }})
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="addressOpened = true"
+            (closed)="addressOpened = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <p class="label">Endereço</p>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="accordionContent">
+              <div class="row">
+                <div class="col">
+                  <label class="label">Rua:</label>
+                  <p class="value">
+                    {{ data.address.street | hasValue : "N/A" }}
+                  </p>
+                </div>
+                <div class="col">
+                  <label class="label">Número:</label>
+                  <p class="value">
+                    {{ data.address.number }}
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <label class="label">Complemento:</label>
+                  <p class="value">
+                    {{ data.address.complement | hasValue : "N/A" }}
+                  </p>
+                </div>
+                <div class="col">
+                  <label class="label">Bairro:</label>
+                  <p class="value">
+                    {{ data.address.neighborhood | hasValue : "N/A" }}
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <label class="label">Cidade:</label>
+                  <p class="value">
+                    {{ data.address.city | hasValue : "N/A" }}
+                  </p>
+                </div>
+                <div class="col col-12 col-sm">
+                  <div class="row">
+                    <div class="col-6">
+                      <label class="label">Estado:</label>
+                      <p class="value">
+                        {{ data.address.state | hasValue : "N/A" }}
+                      </p>
+                    </div>
+                    <div class="col-6">
+                      <label class="label">CEP:</label>
+                      <p class="value">
+                        {{ data.address.cep | asCEP }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="contactOpened = true"
+            (closed)="contactOpened = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <p class="label">Contato</p>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="accordionContent">
+              <div class="row">
+                <div class="col col-12">
+                  <label class="label">Telefones:</label>
+                  <div *ngFor="let phone of data.phoneNumbers" class="row">
+                    <div class="col col-10 align_end">
+                      <div class="frow align_center just_between w100">
+                        <p class="value">{{ phone.number | asPhone }}</p>
+                        <div class="frow align_center">
+                          <i
+                            *ngIf="phone.isWhatsapp"
+                            class="material-icons true"
+                            >check_box</i
+                          >
+                          <i
+                            *ngIf="!phone.isWhatsapp"
+                            class="material-icons false"
+                            >check_box_outline_blank</i
+                          >
+                          <p>Whatsapp</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col col-12">
+                  <label class="label">Emails:</label>
+                  <div *ngFor="let email of data.emails" class="row">
+                    <div class="col col-auto align_end">
+                      <div class="frow align_center">
+                        <p class="value">{{ email.text }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+  </div>
+</app-view-details-modal>

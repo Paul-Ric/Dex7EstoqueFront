@@ -1,0 +1,23 @@
+<div id="container" class="fcol">
+  <app-header (menuToggleEvent)="sideMenuToggle($event)"></app-header>
+
+  <div id="side_container" class="frow">
+    <div id="sideBarContainer">
+      <app-side-bar [opened]="this.sideMenuOpened"></app-side-bar>
+    </div>
+
+    <div id="content">
+      <div id="outlet">
+        <router-outlet></router-outlet>
+      </div>
+
+      <app-footer></app-footer>
+    </div>
+  </div>
+
+  <app-loading
+    [cover]="false"
+    [visible]="loadingService.active"
+    [message]="loadingService.message"
+  ></app-loading>
+</div>

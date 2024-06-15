@@ -1,0 +1,7 @@
+:host ::ng-deep {
+  td, th{
+    &:nth-child(2) {
+      border-left: none !important;
+    }
+  }
+}

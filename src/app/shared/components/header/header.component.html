@@ -1,0 +1,94 @@
+<header>
+  <div id="headerLeft">
+    <div id="hamburguer">
+      <app-hamburguer-icon
+        (toggleEvent)="toggleSideMenu($event)"
+      ></app-hamburguer-icon>
+    </div>
+
+    <div id="logoContainer">
+      <img
+      (click)="navigateHome()"
+        src="../../../../../assets/svg/dex7-logo-horizontal.svg"
+        alt="Logotipo Dex7"
+      />
+    </div>
+
+    <div id="title" class="align_center">
+      <span></span>
+      <p>Agendamento</p>
+    </div>
+  </div>
+
+  <div id="headerRight">
+    <div id="user">
+      <div id="userName">
+        <button class="btnIgnore" (click)="toggleProfile()" [ngClass]="{ opened: profileOpened }">
+          <p>{{ getMaxContent(20, user?.name ?? "") }}</p>
+          <i class="material-icons">expand_more</i>
+        </button>
+
+        <div id="userPanel" [ngClass]="{ opened: profileOpened }">
+
+          <div id="panelHeader">
+            <div class="userImageContainer panelImage">
+              <img
+                *ngIf="userImage != null && userImage.length > 0"
+                [src]="userImage"
+                alt="Foto de perfil."
+              />
+              <i
+                *ngIf="userImage == null || userImage.length == 0"
+                class="material-icons"
+                >person</i
+              >
+            </div>
+
+            <h3>{{user?.name ?? ""}}</h3>
+
+          </div>
+
+          <hr>
+
+          <ol id="panelContent">
+            <li class="panelItem">
+              <button class="btnIgnore">
+                <i class="material-icons itemIcon">person_outline</i>
+                <span>Editar Perfil</span>
+                <i class="material-icons arrow">chevron_right</i>
+              </button>
+            </li>
+            <li class="panelItem">
+              <button class="btnIgnore">
+                <i class="material-icons itemIcon">color_lens</i>
+                <span>Alterar Tema</span>
+                <i class="material-icons arrow">chevron_right</i>
+              </button>
+            </li>
+            <li class="panelItem exitItem">
+              <hr>
+              <button class="btnIgnore" (click)="logout()">
+                <i class="material-icons itemIcon">exit_to_app</i>
+                <span>Sair</span>
+                <i class="material-icons arrow">chevron_right</i>
+              </button>
+            </li>
+          </ol>
+
+        </div>
+      </div>
+      <div class="userImageContainer headerImage" (click)="toggleProfile()">
+        <img
+          *ngIf="userImage != null && userImage.length > 0"
+          [src]="userImage"
+          alt="Foto de perfil."
+        />
+        <i
+          *ngIf="userImage == null || userImage.length == 0"
+          class="material-icons"
+          >person</i
+        >
+      </div>
+    </div>
+  </div>
+</header>

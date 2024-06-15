@@ -1,0 +1,97 @@
+<div id="container" class="fcol">
+  <div id="header" class="frow align_center">
+    <h1>{{ title }}</h1>
+    <p id="register_count">({{ registerCount }})</p>
+    <button
+      (click)="onBtnAddClick()"
+      id="btn_add"
+      class="btnGreen"
+      tabindex="2"
+    >
+      <i class="material-icons">add</i>
+      <p>{{ btnAddText }}</p>
+    </button>
+  </div>
+
+  <div id="tool_bar">
+    <input
+      type="text"
+      placeholder="Buscar"
+      id="search"
+      name="search"
+      [(ngModel)]="searchText"
+      (ngModelChange)="onSearchChange($event)"
+      class="form-control"
+      tabindex="1"
+    />
+  </div>
+  <div id="content">
+    <table class="table">
+      <thead>
+        <tr>
+          <th *ngFor="let col of columns" [style.width]="col.size">
+            {{ col.name }}
+          </th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!loadingContent">
+        <tr *ngFor="let line of data; let y = index">
+          <td *ngFor="let cell of line | display">
+            <div
+              class="colorCard"
+              *ngIf="cell.content.startsWith('clrCard'); else string"
+              [style.--cardColor]="cell.content.replace('clrCard', '')"
+            ></div>
+            <ng-template #string>{{ cell.content }}</ng-template>
+          </td>
+          <td>
+            <div class="frow just_evenly">
+              <button
+                class="btnIgnore actionButton"
+                (click)="onViewClick(line[0].content)"
+                matTooltip="Ver detalhes"
+                matTooltipShowDelay="600"
+                tabIndex="0"
+              >
+                <i class="material-icons">search</i>
+              </button>
+              <button
+                class="btnIgnore actionButton"
+                matTooltip="Editar"
+                matTooltipShowDelay="600"
+                (click)="onEditClick(line[0].content)"
+                tabIndex="0"
+              >
+                <i class="material-icons">edit</i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="data.length == 0">
+          <td [attr.colspan]="columns.length" class="centeredMessage">
+            <div>
+              <i class="material-icons">highlight_off</i>
+              <p>Nenhum registro encontrado!</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <tr *ngIf="loadingContent">
+        <td [attr.colspan]="columns.length" class="centeredMessage">
+          <div>
+            <mat-spinner
+              class="customColorSpinner"
+              [diameter]="30"
+            ></mat-spinner>
+            <p>Carregando, aguarde...</p>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <app-pagination
+      [totalCount]="foundCount"
+      [pageSize]="pageSize"
+      (pageSelectedEvent)="onPageSelected($event)"
+    ></app-pagination>
+  </div>
+</div>

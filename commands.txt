@@ -1,0 +1,11 @@
+Generate Component:
+ng g c --skip-tests=true shared/components/control-validation
+
+Deploy Prod
+ng build --watch --configuration=production
+
+Clear Cache
+npm cache clean --force
+
+Start Application Host
+ng serve --host 0.0.0.0 -o

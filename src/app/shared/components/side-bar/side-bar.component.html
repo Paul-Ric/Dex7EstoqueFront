@@ -1,0 +1,103 @@
+<div id="container" [ngClass]="{ opened: opened }">
+  <ul>
+    <li>
+      <app-side-menu-item [label]="'Agendamento'" [iconName]="'calendar_today'" [isDropdown]="true"
+        (onClickEmitter)="onItemClick()">
+        <ul>
+          <li>
+            <app-side-menu-item [label]="'Agenda'" [iconName]="'date_range'" [heightScale]="0.6"
+              (onClickEmitter)="navigate('app/agendamento/agendar')"></app-side-menu-item>
+          </li>
+
+          <li>
+            <app-side-menu-item [label]="'Clientes'" [iconName]="'people'" [heightScale]="0.6"
+              [rightIconName]="'add_circle'" (onClickEmitter)="navigate('app/clientes/listar')"
+              (onRightIconClickEmitter)="navigate('app/clientes/criar')"></app-side-menu-item>
+          </li>
+        </ul>
+      </app-side-menu-item>
+    </li>
+
+    <li class="">
+      <app-side-menu-item [label]="'Cadastro'" [iconName]="'assignment'" [isDropdown]="true"
+        (onClickEmitter)="onItemClick()">
+        <ul>
+          <li>
+            <app-side-menu-item [label]="'Colaboradores'" [iconName]="'assignment_ind'" [heightScale]="0.6"
+              [rightIconName]="'add_circle'" (onClickEmitter)="navigate('app/colaboradores/listar')"
+              (onRightIconClickEmitter)="navigate('app/colaboradores/criar')"></app-side-menu-item>
+          </li>
+
+          <li>
+            <app-side-menu-item [label]="'Tipos de OS'" [iconName]="'class'" [heightScale]="0.6"
+              [rightIconName]="'add_circle'" (onClickEmitter)="navigate('app/tipos-de-os/listar')"
+              (onRightIconClickEmitter)="navigate('app/tipos-de-os/criar')"></app-side-menu-item>
+          </li>
+
+          <li>
+            <app-side-menu-item [label]="'Questionários'" [iconName]="'list_alt'" [heightScale]="0.6"
+              [rightIconName]="'add_circle'" (onClickEmitter)="navigate('app/questionarios/listar')"
+              (onRightIconClickEmitter)="navigate('app/questionarios/criar')"></app-side-menu-item>
+          </li>
+        </ul>
+      </app-side-menu-item>
+    </li>
+    <li>
+      <app-side-menu-item [label]="'Estoque'" [iconName]="'inventory'" [isDropdown]="true"
+        (onClickEmitter)="onItemClick()">
+        <ul>
+          <li>
+            <app-side-menu-item [label]="'Produtos'" [iconName]="'table_chart'" [heightScale]="0.6"
+              [rightIconName]="'add_circle'" (onClickEmitter)="navigate('app/estoque/produtos')"
+              (onRightIconClickEmitter)="navigate('app/estoque/criar-produtos')"></app-side-menu-item>
+          </li>
+          <li>
+            <app-side-menu-item [label]="'Fornecedores'" [iconName]="'store'" [heightScale]="0.6"
+              [rightIconName]="'add_circle'" (onClickEmitter)="navigate('app/fornecedores/lista')"
+              (onRightIconClickEmitter)="navigate('app/fornecedores/criar-fornecedor')"></app-side-menu-item>
+          </li>
+          <li>
+            <app-side-menu-item [label]="'Marcas'" [iconName]="'loyalty'" [heightScale]="0.6"
+              [rightIconName]="'add_circle'" (onClickEmitter)="navigate('app/marcas/lista')"
+              (onRightIconClickEmitter)="navigate('app/marcas/criar-marca')"></app-side-menu-item>
+          </li>
+          <li>
+            <app-side-menu-item [label]="'Grupo de Itens'" [iconName]="'loyalty'" [heightScale]="0.6"
+              [rightIconName]="'add_circle'" (onClickEmitter)="navigate('app/grupo-itens/lista')"
+              (onRightIconClickEmitter)="navigate('app/grupo-itens/criar-grupo')"></app-side-menu-item>
+          </li>
+          <li>
+            <app-side-menu-item [label]="'Serviços'" [iconName]="'loyalty'" [heightScale]="0.6"
+              [rightIconName]="'add_circle'" (onClickEmitter)="navigate('app/servico/lista')"
+              (onRightIconClickEmitter)="navigate('app/servico/criar-servico')"></app-side-menu-item>
+          </li>
+        </ul>
+      </app-side-menu-item>
+    </li>
+    <li>
+      <app-side-menu-item [label]="'Vendas'" [iconName]="'account_balance'" [isDropdown]="true"
+        (onClickEmitter)="onItemClick()">
+        <ul>
+          <li>
+            <app-side-menu-item [label]="'Ordem de vendas'" [iconName]="'keyboard'" [heightScale]="0.6"
+              [rightIconName]="'add_circle'" (onClickEmitter)="navigate('app/vendas/lista')"
+              (onRightIconClickEmitter)="navigate('app/vendas/criar-ordem-venda')"></app-side-menu-item>
+          </li>
+        </ul>
+      </app-side-menu-item>
+    </li>
+    <li>
+      <app-side-menu-item [label]="'Relatorios'" [iconName]="'equalizer'" [isDropdown]="true"
+        (onClickEmitter)="onItemClick()">
+        <ul>
+          <li>
+            <app-side-menu-item [label]="'Relatório de inventário'" [iconName]="'event_note'" [heightScale]="0.6"
+               (onClickEmitter)="navigate('app/dashboard/relatorio-inventario')"
+              ></app-side-menu-item>
+          </li>
+
+        </ul>
+      </app-side-menu-item>
+    </li>
+  </ul>
+</div>

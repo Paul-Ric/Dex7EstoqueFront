@@ -1,0 +1,67 @@
+//Basic colors
+$white: #ffffff;
+$black: #000000;
+
+//Main colors
+$soft_green: #f3fff4;
+$lighter_green: #d8f9da;
+$light_green: #b1e0b5;
+$dark_green: #7ca980;
+
+//Dark/discreet
+$soft_wintergreen: #53c783;
+$light_wintergreen: #4a9679;
+$wintergreen: #4a848a;
+$dark_slate: #3a6573;
+$void: #2f4858;
+$rifle_green: #3d4a3e;
+
+//soft colors
+$blue_gray: #eef1f8;
+$soft_gray: #f1f1f1;
+$lavender: #e6efff;
+$light_gray: #c5cdda;
+$cool_gray: #868fb3;
+$medium_gray: #72747e;
+$plate_gray: #585c6a;
+$light_red: #ffebeb;
+
+//Spot colors
+$sky_blue: #007db6;
+$spot_dark_green: #4ecb58;
+$lapis_lazulli: #365da4;
+$pantone_orange: #f4a871;
+$dark_red: #b72323;
+
+$app-pallete: (
+  50: $soft_green,
+  100: $lighter_green,
+  200: $light_green,
+  300: $dark_green,
+  400: $wintergreen,
+  500: $light_wintergreen,
+  600: $dark_slate,
+  700: $void,
+  800: $void,
+  900: $void,
+  A100: $light_green,
+  A200: $dark_green,
+  A400: $wintergreen,
+  A700: $void,
+  contrast: (
+    50: #000000de,
+    100: #000000de,
+    200: #000000de,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000de,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);

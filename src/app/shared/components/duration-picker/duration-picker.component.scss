@@ -1,0 +1,132 @@
+@import "../../../../assets/scss/fuse.scss";
+
+#container {
+  position: relative;
+
+  #inputContainer {
+    display: flex;
+
+    #pickerButton {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 50px;
+      padding: 8px 8px 8px 10px;
+      border: 1px solid $light_gray;
+      border-radius: 6px;
+      font-size: max(1.5rem, 12px);
+      background-color: $white;
+      outline: none;
+
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+
+      -webkit-transition: 0.3s ease;
+      -moz-transition: 0.3s ease;
+      -o-transition: 0.3s ease;
+      -ms-transition: 0.3s ease;
+      transition: 0.3s ease;
+
+      &:hover {
+        border-color: $soft_wintergreen;
+        box-shadow: 0 0 3px $light_wintergreen;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: $plate_gray;
+        box-shadow: 0 0 3px $medium_gray;
+      }
+    }
+
+    input{
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: none;
+    }
+  }
+
+  .picker-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 999;
+    background-color: $white;
+    border-radius: 8px;
+    @include PanelShadow();
+
+    &.open {
+      display: flex;
+    }
+
+    .picker-column {
+      display: flex;
+      flex-direction: column;
+      max-height: 200px;
+      overflow-y: scroll;
+      width: 60px;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+
+      border-radius: 8px;
+      &:first-of-type {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right: 1px solid $soft_gray;
+      }
+      &:last-of-type {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+
+      .picker-header {
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 5px;
+        font-size: min(max(2.2rem, 10px), 15px);
+        position: sticky;
+        top: 0;
+        background-color: $white;
+      }
+
+      .picker-items {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+        .picker-item {
+          font-size: 24px;
+          cursor: pointer;
+          text-align: center;
+          flex: 1;
+          color: $plate_gray;
+
+          -webkit-transition: 0.3s ease;
+          -moz-transition: 0.3s ease;
+          -o-transition: 0.3s ease;
+          -ms-transition: 0.3s ease;
+          transition: 0.3s ease;
+
+          &.selected {
+            font-weight: bold;
+            background-color: $soft_wintergreen;
+            color: $lavender;
+          }
+
+          &:hover {
+            background-color: $lighter_green;
+            &.selected {
+              background-color: lighten($soft_wintergreen, 15%);
+            }
+          }
+        }
+      }
+    }
+  }
+}

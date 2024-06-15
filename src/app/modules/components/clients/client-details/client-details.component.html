@@ -1,0 +1,175 @@
+<app-view-details-modal
+  [title]="'Detalhes do Cliente'"
+  [id]="data.id"
+  (editClickEvent)="onEditClick($event)"
+>
+  <div id="container" [ngClass]="{ xSmall: facade.layout.isXS$ | async }">
+    <div class="row">
+      <div class="item col-12">
+        <p class="label">Nome:</p>
+        <p class="value">{{ data.name }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="item col-12 col-sm-6">
+        <p class="label">Segmento:</p>
+        <p class="value">{{ data.segment | hasValue : "N/A" }}</p>
+      </div>
+      <div class="item col-12 col-sm-6">
+        <p class="label">Grupo:</p>
+        <p class="value">{{ data.group | hasValue : "N/A" }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="item col-6">
+        <p class="label">CPF:</p>
+        <p class="value">{{ data.cpf | hasValue : "N/A" }}</p>
+      </div>
+      <div class="item col-6">
+        <p class="label">CNPJ:</p>
+        <p class="value">{{ data.cnpj | hasValue : "N/A" }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="item col-12">
+        <p class="label">Observação:</p>
+        <p class="value">{{ data.note | hasValue : "N/A" }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="item col-12 col-sm-6">
+        <p class="label">Colaborador Responsável:</p>
+        <p class="value">{{ data.responsibleCollaborator?.name | hasValue : "N/A" }}</p>
+      </div>
+      <div class="item col-12 col-sm-6">
+        <p class="label">Falar com:</p>
+        <p class="value">{{ data.speakTo | hasValue : "N/A" }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="addressOpened = true"
+            (closed)="addressOpened = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <p class="label">Endereço</p>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="accordionContent">
+              <div class="row">
+                <div class="col">
+                  <label class="label">Rua:</label>
+                  <p class="value">
+                    {{ data.address.street | hasValue : "N/A" }}
+                  </p>
+                </div>
+                <div class="col">
+                  <label class="label">Número:</label>
+                  <p class="value">
+                    {{ data.address.number }}
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <label class="label">Complemento:</label>
+                  <p class="value">
+                    {{ data.address.complement | hasValue : "N/A" }}
+                  </p>
+                </div>
+                <div class="col">
+                  <label class="label">Bairro:</label>
+                  <p class="value">
+                    {{ data.address.neighborhood | hasValue : "N/A" }}
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <label class="label">Cidade:</label>
+                  <p class="value">
+                    {{ data.address.city | hasValue : "N/A" }}
+                  </p>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <div class="col">
+                      <label class="label">Estado:</label>
+                      <p class="value">
+                        {{ data.address.state | hasValue : "N/A" }}
+                      </p>
+                    </div>
+                    <div class="col">
+                      <label class="label">CEP:</label>
+                      <p class="value">
+                        {{ data.address.cep | hasValue : "N/A" }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="contactOpened = true"
+            (closed)="contactOpened = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <p class="label">Contato</p>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="accordionContent">
+              <div class="row">
+                <div class="col col-12">
+                  <label class="label">Telefones:</label>
+                  <div *ngFor="let phone of data.phoneNumbers" class="row">
+                    <div class="col col-10 align_end">
+                      <div class="frow align_center just_between w100">
+                        <p class="value">{{ phone.number | asPhone }}</p>
+                        <div class="frow align_center">
+                          <i
+                            *ngIf="phone.isWhatsapp"
+                            class="material-icons true"
+                            >check_box</i
+                          >
+                          <i
+                            *ngIf="!phone.isWhatsapp"
+                            class="material-icons false"
+                            >check_box_outline_blank</i
+                          >
+                          <p>Whatsapp</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col col-12">
+                  <label class="label">Emails:</label>
+                  <div *ngFor="let email of data.emails" class="row">
+                    <div class="col col-auto align_end">
+                      <div class="frow align_center">
+                        <p class="value">{{ email.text }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+  </div>
+</app-view-details-modal>

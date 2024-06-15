@@ -1,0 +1,40 @@
+<app-view-details-modal
+  [title]="'Detalhes do Tipo de OS'"
+  [id]="data.id"
+  (editClickEvent)="onEditClick($event)"
+>
+  <div id="container" [ngClass]="{xSmall: facade.layout.isXS$ | async}">
+    <div class="row">
+      <div class="item nameCol col-12 col-sm-auto">
+        <p class="label">Nome:</p>
+        <p class="value">{{ data.name }}</p>
+      </div>
+      <div class="item col-12 col-sm-4">
+        <p class="label">Cor:</p>
+        <p
+          class="value"
+          id="color"
+          [style.--cardColor]="'#' + data.colorHexCode"
+        >
+          #{{ data.colorHexCode }}
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="item col-12">
+        <p class="label">Descrição:</p>
+        <p class="value">{{ data.description }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="item col-12 col-sm-6">
+        <p class="label">Tempo de tolerância:</p>
+        <p class="value">{{ data.toleranceTime | ticksToTime }}</p>
+      </div>
+      <div class="item col-12 col-sm-6">
+        <p class="label">Tempo estimado de execução:</p>
+        <p class="value">{{ data.estimatedTime | ticksToTime }}</p>
+      </div>
+    </div>
+  </div>
+</app-view-details-modal>

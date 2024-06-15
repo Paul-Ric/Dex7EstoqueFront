@@ -1,0 +1,85 @@
+@import "../../../../../assets/scss/fuse.scss";
+
+.item_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  z-index: 2;
+  height: min(max(calc(10vh * var(--hScale)), 40px), 60px);
+  cursor: pointer;
+
+  -webkit-transition: background-color 0.3s ease;
+  -moz-transition: background-color 0.3s ease;
+  -o-transition: background-color 0.3s ease;
+  -ms-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+
+  //item_container hover
+  &:hover:not(.disabled, :has(.right_icon:hover)) {
+    background-color: $dark_slate;
+    .labels {
+      color: $white;
+    }
+  }
+
+  //prevent item_container hover if right_icon is hovered
+  &:has(.right_icon:hover) {
+    pointer-events: none;
+  }
+
+  //right_icon hover if not disabled
+  &:not(.disabled) .right_icon:hover {
+    color: $lighter_green;
+  }
+
+  .labels {
+    flex: 1;
+    font-size: min(max(2.3rem, 15px), 25px);
+    color: $lavender;
+    margin-left: 5%;
+
+    i {
+      margin-right: 8%;
+    }
+  }
+
+  .arrow {
+    margin-right: 5%;
+    font-size: min(max(6.3rem, 30px), 40px);
+    color: $lavender;
+  }
+
+  .right_icon {
+    margin-right: 5%;
+    color: $light_green;
+    pointer-events: auto;
+  }
+
+  &.disabled {
+    filter: brightness(70%);
+    background-color: darken($color: $void, $amount: 1);
+    cursor: default;
+  }
+}
+
+.item_content {
+  width: 90%;
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  max-height: 0;
+
+  -webkit-transition: max-height 0.1s ease;
+  -moz-transition: max-height 0.1s ease;
+  -o-transition: max-height 0.1s ease;
+  -ms-transition: max-height 0.1s ease;
+  transition: max-height 0.1s ease;
+
+  &.opened {
+    // max-height: 200px;
+  }
+}

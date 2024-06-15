@@ -1,0 +1,14 @@
+<app-list-view
+  [title]="'Grupo de itens'"
+  [pageSize]="facade.MAX_PAGE_ITEMS"
+  [btnAddText]="'Novo Grupo de itens'"
+  [columns]="facade.LIST_COLUMNS"
+  [data]="this.facade.listItemGroupValues"
+  [loadingContent]="facade.loading"
+  [pageSize]="facade.MAX_PAGE_ITEMS"
+
+  (addNewEvent)="onBtnAddClick()"
+  (viewEvent)="onViewDetailsClick($event)"
+  (editEvent)="onEditClick($event)"
+>
+</app-list-view>

@@ -1,0 +1,298 @@
+@import "../../../../assets/scss/fuse.scss";
+
+header {
+  width: 100%;
+  height: min(max(9vh, 50px), 70px);
+  background-color: $void;
+  border-bottom: 3px solid rgba($black, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  #headerLeft {
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    #hamburguer {
+      margin-left: 15px;
+      width: 5vh;
+      width: min(max(5vh, 30px), 40px);
+    }
+
+    #logoContainer {
+      height: 50%;
+      margin-left: 25px;
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+
+      img {
+        height: 100%;
+        width: auto;
+
+        filter: brightness(1); /* Initial brightness */
+        transition: filter 0.2s ease-in-out; /* Transition for smooth effect */
+
+        &:hover {
+          filter: brightness(1.3); /* Increased brightness on hover */
+          text-shadow: 0 0 10px transparentize($white, 0.7);
+        }
+      }
+    }
+
+    #title {
+      height: 100%;
+      span {
+        display: block;
+        height: 80%;
+        width: 1px;
+        margin: 0 15px;
+        background: $lavender;
+      }
+      p {
+        color: $lavender;
+
+        font-size: min(max(2.2rem, 18px), 30px);
+      }
+    }
+  }
+
+  #headerRight {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-right: 50px;
+
+    #user {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding-right: 20px;
+      position: relative;
+
+      #userName {
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+
+        button {
+          border: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: transparent;
+          padding: 0;
+          font-size: min(max(1.5rem, 14px), 18px);
+          color: $lavender;
+
+          -webkit-transition: 0.4s ease;
+          -moz-transition: 0.4s ease;
+          -o-transition: 0.4s ease;
+          -ms-transition: 0.4s ease;
+          transition: 0.4s ease;
+
+          i {
+            -webkit-transition: transform 0.4s ease;
+            -moz-transition: transform 0.4s ease;
+            -o-transition: transform 0.4s ease;
+            -ms-transition: transform 0.4s ease;
+            transition: transform 0.4s ease;
+          }
+
+          &:hover {
+            color: $white;
+          }
+
+          &.opened i {
+            transform: rotate(180deg);
+          }
+        }
+
+        hr {
+          height: 2px;
+          width: calc(100% - 30px);
+          columns: $medium_gray;
+        }
+
+        #userPanel {
+          position: absolute;
+          top: 110%;
+          right: 10%;
+          z-index: 100;
+          height: 500px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          max-height: 0;
+          overflow: hidden;
+          width: 320px;
+          background-color: $white;
+          @include PanelShadow();
+
+          -webkit-transition: max-height 0.4s ease;
+          -moz-transition: max-height 0.4s ease;
+          -o-transition: max-height 0.4s ease;
+          -ms-transition: max-height 0.4s ease;
+          transition: max-height 0.4s ease;
+
+          &.opened {
+            max-height: 300px;
+          }
+
+          #panelHeader {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+
+            h3 {
+              font-weight: bold;
+              color: $plate_gray;
+              font-size: min(max(2.2rem, 18px), 30px);
+              margin-left: 10px;
+            }
+          }
+
+          #panelContent {
+            @include AllDivSpace();
+            display: flex;
+            flex-direction: column;
+
+            .panelItem {
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+
+              &:last-of-type {
+                margin-top: auto;
+                button {
+                  color: $dark_red;
+                  .itemIcon {
+                    color: $dark_red;
+                  }
+                  &:hover {
+                    background-color: $light_red;
+                    .itemIcon {
+                      color: $light_red !important;
+
+                      &::before {
+                        background-color: $dark_red !important;
+                      }
+                    }
+                  }
+                }
+              }
+
+              button {
+                @include AllDivSpace();
+                display: flex;
+                justify-content: left;
+                padding: 15px 20px;
+                font-size: min(max(1.5rem, 14px), 18px);
+
+                color: $medium_gray;
+                .itemIcon {
+                  position: relative;
+                  color: $cool_gray;
+                  margin-right: 20px;
+                  z-index: 1;
+
+                  &::before {
+                    content: "";
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    height: 150%;
+                    width: 150%;
+                    background-color: $soft_gray;
+                    border-radius: 50%;
+                    z-index: -1;
+
+                    -webkit-transition: background-color 0.3s ease;
+                    -moz-transition: background-color 0.3s ease;
+                    -o-transition: background-color 0.3s ease;
+                    -ms-transition: background-color 0.3s ease;
+                    transition: background-color 0.3s ease;
+                  }
+                }
+                .arrow {
+                  margin-left: auto;
+                  margin-right: 5px;
+
+                  -webkit-transition: margin-right 0.3s ease;
+                  -moz-transition: margin-right 0.3s ease;
+                  -o-transition: margin-right 0.3s ease;
+                  -ms-transition: margin-right 0.3s ease;
+                  transition: margin-right 0.3s ease;
+                }
+
+                &:hover {
+                  background-color: $blue_gray;
+
+                  .itemIcon {
+                    color: $lavender;
+
+                    &::before {
+                      background-color: $cool_gray;
+                    }
+                  }
+
+                  .arrow {
+                    transform: scale(1.1);
+                    margin-right: 0;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .userImageContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: $plate_gray;
+        border: 1px solid $void;
+        cursor: pointer;
+
+        img{
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          border-radius: 50%;
+        }
+
+        &.headerImage {
+          height: 50px;
+          width: 50px;
+
+          i {
+            font-size: 35px;
+          }
+        }
+        &.panelImage {
+          height: 70px;
+          width: 70px;
+
+          i {
+            font-size: 50px;
+          }
+        }
+
+        i {
+          color: $lavender;
+          -webkit-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+      }
+    }
+  }
+}

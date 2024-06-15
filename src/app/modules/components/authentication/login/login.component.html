@@ -1,0 +1,83 @@
+<div id="container">
+  <form
+    id="loginForm"
+    name="loginForm"
+    [formGroup]="form"
+    (ngSubmit)="onLoginFormSubmit()"
+  >
+    <div class="row just_center">
+      <div class="col-12 col-md-11">
+        <div class="form-group">
+          <label for="login">Login:</label>
+          <input
+            type="text"
+            maxlength="100"
+            id="login"
+            name="login"
+            formControlName="login"
+          />
+          <span class="txtRemaining">{{ login.value?.length ?? "0" }}/100</span>
+          <div
+            class="errorsContainer"
+            *ngIf="login.invalid && (login.dirty || login.touched)"
+          >
+            <span *ngIf="login.errors?.['required']"
+              >*O Login é obrigatório</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row just_center">
+      <div class="col-12 col-md-11">
+        <div class="form-group">
+          <label for="password">Senha:</label>
+          <div class="pos_rel">
+            <input
+              [type]="hidePassword ? 'password' : 'text'"
+              maxlength="50"
+              id="password"
+              name="password"
+              formControlName="password"
+            />
+            <i
+              *ngIf="password.value"
+              class="material-icons passwordEye"
+              (click)="hidePassword = !hidePassword"
+              >{{ hidePassword ? "visibility" : "visibility_off" }}</i
+            >
+          </div>
+          <span class="txtRemaining"
+            >{{ password.value?.length ?? "0" }}/50</span
+          >
+          <div
+            class="errorsContainer"
+            *ngIf="password.invalid && (password.dirty || password.touched)"
+          >
+            <span *ngIf="password.errors?.['required']"
+              >*A Senha é obrigatória</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row just_center">
+      <div class="col-12 col-md-11">
+        <button
+          id="btnLogin"
+          class="btnGreen"
+          type="submit"
+          [disabled]="!form.valid"
+        >
+          Entrar
+        </button>
+      </div>
+    </div>
+
+    <div class="row just_center">
+      <div class="col-12 just_center">
+        <p id="appVersion">Dex7 v1.0.0</p>
+      </div>
+    </div>
+  </form>
+</div>

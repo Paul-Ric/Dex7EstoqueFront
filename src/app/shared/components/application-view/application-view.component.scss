@@ -1,0 +1,29 @@
+@import "../../../../assets/scss/fuse.scss";
+
+#container {
+  @include AllSpace();
+  background-color: $soft_gray;
+
+  #side_container {
+    overflow-y: auto;
+    z-index: 1;
+    height: 100%;
+
+    #sideBarContainer {
+      position: sticky;
+      top: 0;
+      bottom: 0;
+    }
+
+    #content {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      justify-content: space-between;
+
+      #outlet {
+        flex: 1 1 auto;
+      }
+    }
+  }
+}

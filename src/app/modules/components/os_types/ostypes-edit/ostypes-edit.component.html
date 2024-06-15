@@ -1,0 +1,146 @@
+<app-edit-view
+  [isCreatePage]="isCreatePage"
+  [saveEnabled]="hasChanges"
+  [discardEnabled]="hasChanges && !isCreatePage"
+  [title]="isCreatePage ? 'Criar tipo de OS' : 'Editar tipo de OS'"
+  (onSave)="onSave()"
+  (onDelete)="onDelete()"
+  (onCancel)="onCancel()"
+  (onDiscard)="promptDiscardChanges()"
+  (onClearFields)="promptClearFields()"
+>
+  <div id="container">
+    <div class="row">
+      <div class="col-12 col-sm-7 col-md-6 col-lg-6 col-xl-4">
+        <div class="form-group">
+          <label for="name">Nome:</label>
+          <input
+            type="text"
+            maxlength="50"
+            id="name"
+            name="name"
+            [(ngModel)]="model.name"
+            class="form-control"
+            (change)="inputChanged()"
+            tabindex="1"
+          />
+          <span class="txtRemaining">{{ model.name.length }}/50</span>
+        </div>
+      </div>
+      <div class="col-12 col-sm-5 col-md-2 col-lg-auto col-xl-auto">
+        <div
+          class="form-group"
+          [ngClass]="{ mr20: (facade.layout.isLG$ | async) || (facade.layout.isXL$ | async) }"
+        >
+          <label for="color">Cor:</label>
+          <div class="frow align_center">
+            <button
+              class="btnIgnore"
+              id="colorBtn"
+              [style.background-color]="model.colorHexCode"
+              (click)="toggleColorsOpened()"
+              tabindex="2"
+            ></button>
+            <p id="colorValue">{{ model.colorHexCode }}</p>
+          </div>
+          <app-double-color-picker
+            (changeCompleted)="inputChanged()"
+            [(currentColorHexCode)]="model.colorHexCode"
+            [(isOpen)]="isColorOpened"
+          ></app-double-color-picker>
+        </div>
+      </div>
+      <div class="col col-12 col-sm-7 col-md-4 col-lg-4 col-xl-3">
+        <div class="form-group dense-3">
+          <label for="questionnaire">Questionário:</label>
+          <mat-form-field appearance="outline">
+            <input
+              type="text"
+              placeholder="Selecione"
+              aria-label="Questionário"
+              matInput
+              [(ngModel)]="model.questionnaire.title"
+              [matAutocomplete]="autoQuestionnaire"
+              class="inputIgnore"
+              id="questionnaireCombo"
+              name="questionnaire"
+              (change)="onQuestionnaireComplete()"
+              (ngModelChange)="onQuestionnaireChange($event)"
+              tabindex="3"
+            />
+            <button
+              class="btnIgnore"
+              *ngIf="model.questionnaire.title"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="
+                model.questionnaire.title = ''; onQuestionnaireChange('')
+              "
+              tabindex="-1"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-autocomplete #autoQuestionnaire="matAutocomplete">
+              <mat-option
+                *ngFor="let questionnaire of facade.currentQuestionnairesList"
+                [value]="questionnaire.title"
+                (onSelectionChange)="
+                  onQuestionnaireSelect(questionnaire.id, $event)
+                "
+              >
+                {{ questionnaire.title }}
+              </mat-option>
+              <div *ngIf="hasMoreQuestionnaires" class="frow w100 just_center">
+                <button (click)="onSeeMoreQuestionnaires()" id="btnQuestionnaireSeeMore" class="btnIgnore">Ver mais</button>
+              </div>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-sm-9 col-md-8 col-lg-6 col-xl-4">
+        <div class="form-group">
+          <label for="description">Descrição:</label>
+          <textarea
+            maxlength="255"
+            type="text"
+            id="description"
+            name="description"
+            rows="4"
+            [(ngModel)]="model.description"
+            class="form-control"
+            (change)="inputChanged()"
+            tabindex="4"
+          ></textarea>
+          <span class="txtRemaining">{{ model.description.length }}/255</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-sm-5 col-lg-3">
+        <div class="form-group">
+          <label>Tempo de tolerância:</label>
+          <app-duration-picker
+            (changeCompleted)="inputChanged()"
+            (durationValueChange)="inputChanged()"
+            [(durationValue)]="toleranceTime"
+          ></app-duration-picker>
+        </div>
+      </div>
+      <div class="col-12 col-sm-5 col-lg-3">
+        <div class="form-group">
+          <label>Tempo estimado de execução:</label>
+          <app-duration-picker
+            (changeCompleted)="inputChanged()"
+            (durationValueChange)="inputChanged()"
+            [(durationValue)]="estimatedTime"
+          ></app-duration-picker>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-edit-view>

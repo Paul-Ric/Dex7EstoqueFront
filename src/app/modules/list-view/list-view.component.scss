@@ -1,0 +1,191 @@
+@import "../../../assets/scss/fuse.scss";
+
+#container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  #header {
+    width: 100%;
+    height: min(max(5vh, 40px), 60px);
+    background-color: $white;
+    border-bottom: 1px solid $light_gray;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    h1 {
+      font-size: min(max(2.3rem, 18px), 20px);
+      margin-right: 10px;
+    }
+
+    #register_count {
+      color: $cool_gray;
+      font-size: min(max(2.3rem, 12px), 16px);
+    }
+
+    #btn_add {
+      margin-left: auto;
+    }
+  }
+
+  #tool_bar {
+    display: flex;
+    align-items: center;
+    width: 97%;
+    height: min(max(4vh, 35px), 45px);
+    margin: 10px 0 5px 0;
+
+    input {
+      width: min(max(35%, 200px), 500px);
+    }
+  }
+
+  #content {
+    @include PanelShadow();
+    width: 97%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+    margin-bottom: 12px;
+    background-color: $white;
+
+    .table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: min(max(2.2rem, 10px), 15px);
+      overflow: scroll;
+
+      thead {
+        th {
+          font-size: min(max(2.5rem, 11px), 17px);
+          font-weight: bold;
+          color: $dark_slate;
+          border-bottom: 2px solid $soft_gray;
+        }
+      }
+
+      .centeredMessage {
+        div {
+          margin-top: 30px;
+          width: 100%;
+          color: $pantone_orange;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          i {
+            margin-right: 5px;
+          }
+
+          p {
+            font-weight: bold;
+            font-size: min(max(3.3rem, 10px), 17px);
+          }
+
+          mat-spinner {
+            margin-right: 20px;
+          }
+        }
+
+        ::ng-deep .customColorSpinner circle {
+          stroke: $pantone_orange;
+        }
+      }
+
+      tbody {
+        tr {
+          transition: background-color 0.3s ease;
+          &:hover {
+            background-color: $soft_green;
+          }
+          height: 100%;
+
+          td {
+            .colorCard {
+              &::before {
+                content: "";
+                display: block;
+                border: 1px solid $light_gray;
+                width: 10px;
+                height: 25px;
+                border-radius: 10px;
+                background-color: var(--cardColor);
+              }
+            }
+          }
+        }
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        vertical-align: middle;
+
+        border-left: 1px solid $soft_gray;
+
+        &:not(.centeredMessage) {
+          border-bottom: 1px solid $soft_gray;
+        }
+
+        &:first-child {
+          border-left: 0;
+          padding-left: 20px;
+        }
+        &:last-child {
+          border-right: 0;
+          border-left: 0;
+        }
+
+        .actionButton {
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+
+          i {
+            position: relative;
+            z-index: 0;
+            color: $dark_slate;
+
+            -webkit-transition: color 0.3s ease;
+            -moz-transition: color 0.3s ease;
+            -ms-transition: color 0.3s ease;
+            -o-transition: color 0.3s ease;
+            transition: color 0.3s ease;
+
+            &::before {
+              content: "";
+              z-index: -1;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              width: 120%;
+              height: 120%;
+              border-radius: 50%;
+              background-color: $wintergreen;
+              opacity: 0;
+
+              -webkit-transition: opacity 0.3s ease;
+              -moz-transition: opacity 0.3s ease;
+              -ms-transition: opacity 0.3s ease;
+              -o-transition: opacity 0.3s ease;
+              transition: opacity 0.3s ease;
+            }
+
+            &:hover {
+              color: $lavender;
+
+              &::before {
+                opacity: 1;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

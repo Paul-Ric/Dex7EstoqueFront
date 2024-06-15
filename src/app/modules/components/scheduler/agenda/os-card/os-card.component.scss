@@ -1,0 +1,75 @@
+@import "../../../../../../assets/scss/fuse.scss";
+
+:host {
+  width: 100%;
+  height: 100%;
+}
+
+.template-wrap {
+  @include AllDivSpace();
+
+  overflow: hidden;
+
+  .bold {
+    font-weight: bold;
+  }
+
+  .osHeader {
+    font-size: 13px;
+    .osNumber {
+      text-decoration: underline;
+    }
+  }
+
+  .time {
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    .cardIcon {
+      font-size: 11px;
+      margin-right: 5px;
+    }
+  }
+
+  .client {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    .cardIcon {
+      font-size: 12px;
+      margin-right: 5px;
+    }
+  }
+
+  .address {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    .cardIcon {
+      font-size: 12px;
+      margin-right: 5px;
+    }
+  }
+}
+
+::ng-deep {
+  .e-schedule .e-timeline-view .e-appointment,
+  .e-schedule .e-timeline-month-view .e-appointment {
+    height: 80px !important;
+    // background-color: var(--osColor) !important;
+    padding: 0 10px !important;
+
+    .e-event-resize {
+      &:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+<div
+  class="template-wrap"
+  [style.background-color]="'#' + data.osTypeColorHex"
+  [style.color]="(data.osTypeColorHex | isDark) ? '#fff' : '#000'"
+>
+  <div class="osHeader bold">
+    N° OS: <span class="osNumber">{{ data.Id }}</span>
+  </div>
+  <div class="time">
+    <i class="material-icons cardIcon">access_time</i>
+    <span class="startTimeValue">{{ data.StartTime | date : "HH:mm" }}</span> -
+    <span class="endTimeValue">{{ data.EndTime | date : "HH:mm" }}</span>
+  </div>
+
+  <div class="client">
+    <i class="material-icons cardIcon">person</i>
+    {{ data.clientName }}
+  </div>
+
+  <div class="address">
+    <i class="material-icons cardIcon">room</i>
+    {{ data.Location }}
+  </div>
+</div>

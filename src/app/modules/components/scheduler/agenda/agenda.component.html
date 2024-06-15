@@ -1,0 +1,55 @@
+<div id="container">
+  <app-loading
+    *ngIf="osFacade.loading"
+    [cover]="false"
+    [visible]="osFacade.loading"
+    [message]="osFacade.loadingText"
+  ></app-loading>
+
+  <ejs-schedule
+    #osScheduler
+    rowAutoHeight="true"
+    id="schedule"
+    [selectedDate]="selectedDate"
+    [eventSettings]="eventSettings"
+    [group]="group"
+    locale="pt"
+    [startHour]="startHour"
+    [endHour]="endHour"
+    [timeScale]="timeScale"
+    [allowResizing]="true"
+    [(selectedDate)]="selectedDate"
+    (renderCell)="onRenderCell($event)"
+    (eventRendered)="onEventRendered($event)"
+    (actionBegin)="onActionBegin($event)"
+    (actionComplete)="onActionComplete($event)"
+    (resizing)="onResize($event)"
+    (resizeStop)="onResizeStop($event)"
+    (dragStop)="onDragStop($event)"
+    (cellDoubleClick)="onCellDoubleClick($event, osScheduler)"
+    (popupOpen)="onPopupOpen($event)"
+    appointmentTemplateId="#appTemplate"
+  >
+    <ng-template #eventSettingsTemplate let-data>
+      <app-os-card [resizeEvent]="resizeEvent" [data]="data"></app-os-card>
+    </ng-template>
+
+
+    <e-resources>
+      <e-resource
+        field="collaboratorId"
+        title="Colaborador"
+        name="Colaboradores"
+        [dataSource]="collaborators"
+        [allowMultiple]="false"
+        textField="name"
+        idField="id"
+      ></e-resource>
+    </e-resources>
+    <e-views>
+      <e-view option="TimelineDay"></e-view>
+      <e-view option="TimelineWeek"></e-view>
+      <e-view option="TimelineMonth"></e-view>
+    </e-views>
+  </ejs-schedule>
+</div>

@@ -1,0 +1,20 @@
+<div
+  (click)="onClick()"
+  class="item_container"
+  [ngClass]="{ disabled: isDisabled }"
+  [style.--hScale]="this.heightScale"
+>
+  <div class="labels frow align_center">
+    <i class="material-icons">{{ iconName }}</i>
+    <p>{{ label }}</p>
+  </div>
+  <i *ngIf="isDropdown" class="material-icons arrow">expand_more</i>
+  <i *ngIf="!isDropdown && rightIconName != undefined" (click)="onRightIconClick($event)" class="material-icons right_icon">{{ rightIconName }}</i>
+</div>
+<div
+  id="{{ 'content_' + label }}"
+  class="item_content"
+  [ngClass]="{ opened: isOpened }"
+>
+  <ng-content></ng-content>
+</div>

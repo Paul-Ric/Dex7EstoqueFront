@@ -1,0 +1,30 @@
+<app-view-details-modal
+  [title]="'Detalhes do Colaborador'"
+  [id]="data.id"
+  (editClickEvent)="onEditClick($event)"
+>
+<div id="container" [ngClass]="{ xSmall: facade.layout.isXS$ | async }">
+  <div class="row">
+    <div class="item col-auto">
+      <p class="label">Nome:</p>
+      <p class="value">{{ data.name }}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="item col-auto col-sm-8">
+      <p class="label">Contato Responsavel:</p>
+      <p class="value">{{ data.contactPerson}}</p>
+    </div>
+    <div class="item col-auto col-sm-4">
+      <p class="label">Telefone:</p>
+      <p class="value">{{ data.phone}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="item col-12 col-sm-4">
+      <p class="label">Email:</p>
+      <p class="value">{{ data.email }}</p>
+    </div>
+  </div>
+</div>
+</app-view-details-modal>

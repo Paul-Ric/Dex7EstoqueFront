@@ -1,0 +1,78 @@
+<app-view-details-modal
+  [title]="'Detalhes do Questionário'"
+  [id]="data.id"
+  (editClickEvent)="onEditClick($event)"
+>
+  <div id="container" [ngClass]="{ xSmall: facade.layout.isXS$ | async }">
+    <div class="row">
+      <div class="item nameCol col-12 col-sm-auto">
+        <p class="label">Nome:</p>
+        <p class="value">{{ data.title }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="item col-12 col-sm-6">
+        <p class="label">
+          Ordens de Serviço: <span>({{ data.osTypes.length }})</span>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="item col-12">
+        <p class="label">
+          Perguntas: <span>({{ data.questions.length }})</span>
+        </p>
+        <mat-accordion>
+          <mat-expansion-panel
+            *ngFor="let question of data.questions"
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ getQuestionPreview(question.text) }}
+              </mat-panel-title>
+              <mat-panel-description>
+                {{ mapQuestionType(question.type) }}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="accordionContent">
+              <div class="row">
+                <div class="col col-12">
+                  <label>Pergunta:</label>
+                  <p>{{ question.text }}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col col-6">
+                  <label>Tipo de resposta:</label>
+                  <div class="frow align_center">
+                    <i class="material-icons false">{{
+                      mapQuestionTypeIcon(question.type)
+                    }}</i>
+                    <p>{{ mapQuestionType(question.type) }}</p>
+                  </div>
+                </div>
+                <div class="col col-6 align_end">
+                  <div class="frow align_center">
+                    <i
+                      *ngIf="question.isAnswerRequired"
+                      class="material-icons true"
+                      >check_box</i
+                    >
+                    <i
+                      *ngIf="!question.isAnswerRequired"
+                      class="material-icons false"
+                      >check_box_outline_blank</i
+                    >
+                    <p>Resposta Obrigatória</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+  </div>
+</app-view-details-modal>
